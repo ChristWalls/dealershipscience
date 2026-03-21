@@ -3,285 +3,95 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Dealership Science | EV Savings Summary</title>
-  <meta name="description" content="Your EV savings estimate from Dealership Science." />
+  <title>Dealership Science | Your EV Savings Plan</title>
   <style>
     :root{
-      --text:#eef6ff;
-      --muted:#a9bdd6;
-      --primary:#5ad1ff;
-      --primary2:#8d6bff;
-      --success:#35e08a;
-      --line:rgba(255,255,255,.12);
-      --bg1:#07101d;
-      --bg2:#091424;
-      --card:rgba(255,255,255,.05);
+      --primary:#003366;
+      --primary-dark:#00264d;
+      --bg:#f4f7fb;
+      --card:#ffffff;
+      --text:#18212b;
+      --muted:#5e6b78;
+      --border:#d8e0ea;
+      --success:#117a37;
     }
     *{box-sizing:border-box}
-    body{
-      margin:0;
-      font-family:Inter,Arial,Helvetica,sans-serif;
-      color:var(--text);
-      background:
-        radial-gradient(circle at top left, rgba(90,209,255,.18), transparent 28%),
-        radial-gradient(circle at top right, rgba(141,107,255,.18), transparent 26%),
-        linear-gradient(180deg, var(--bg1) 0%, var(--bg2) 100%);
-      min-height:100vh;
-    }
-    .wrap{max-width:1100px;margin:0 auto;padding:24px 18px 40px}
-    .hero{
-      border:1px solid var(--line);
-      border-radius:28px;
-      padding:34px;
-      background:linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.04));
-      box-shadow:0 0 0 1px rgba(90,209,255,.2), 0 0 30px rgba(90,209,255,.12)
-    }
-    .badge{
-      display:inline-block;
-      padding:8px 12px;
-      border-radius:999px;
-      border:1px solid rgba(90,209,255,.24);
-      background:rgba(90,209,255,.08);
-      font-size:12px;
-      font-weight:800;
-      letter-spacing:.08em;
-      text-transform:uppercase;
-      color:#c8f3ff
-    }
-    h1{
-      font-size:clamp(34px,5vw,62px);
-      line-height:1.02;
-      margin:16px 0 10px;
-      max-width:920px
-    }
-    .hero p{margin:0;max-width:820px;color:var(--muted);font-size:18px;line-height:1.55}
-    .savings{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:22px}
-    .metric{
-      padding:18px;
-      border-radius:18px;
-      background:rgba(255,255,255,.05);
-      border:1px solid var(--line)
-    }
-    .metric .k{
-      font-size:12px;
-      color:var(--muted);
-      text-transform:uppercase;
-      letter-spacing:.08em;
-      font-weight:800
-    }
-    .metric .v{font-size:32px;font-weight:900;margin-top:10px;color:var(--success)}
-    .grid{display:grid;grid-template-columns:1.05fr .95fr;gap:22px;margin-top:22px}
-    .card{
-      border:1px solid var(--line);
-      border-radius:24px;
-      padding:24px;
-      background:var(--card)
-    }
-    h2{margin:0 0 10px;font-size:24px}
-    .sub,.tiny{color:var(--muted);font-size:14px;line-height:1.6}
-    .lead{font-size:16px;color:var(--muted);line-height:1.65;margin:0 0 8px}
-    .steps{display:grid;gap:12px;margin-top:18px}
-    .step{
-      display:flex;
-      gap:12px;
-      padding:14px;
-      border-radius:18px;
-      background:rgba(255,255,255,.05);
-      border:1px solid var(--line)
-    }
-    .n{
-      min-width:38px;
-      height:38px;
-      border-radius:12px;
-      display:grid;
-      place-items:center;
-      background:linear-gradient(135deg,var(--primary),var(--primary2));
-      color:#07111d;
-      font-weight:900
-    }
-    .cta-row{display:flex;gap:12px;flex-wrap:wrap;margin-top:22px}
-    .btn{
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      padding:14px 18px;
-      border-radius:16px;
-      text-decoration:none;
-      font-weight:900;
-      letter-spacing:.02em
-    }
-    .btn-primary{background:linear-gradient(135deg,var(--primary),var(--primary2));color:#07111d}
-    .btn-secondary{background:rgba(255,255,255,.08);border:1px solid var(--line);color:var(--text)}
-    .recap{
-      margin-top:14px;
-      padding:16px 18px;
-      border-radius:18px;
-      background:rgba(53,224,138,.08);
-      border:1px solid rgba(53,224,138,.22);
-      color:#dfffee;
-      font-size:16px;
-      line-height:1.6
-    }
-    .fineprint{margin-top:16px;color:var(--muted);font-size:12px;line-height:1.55}
-    @media (max-width: 940px){
-      .grid{grid-template-columns:1fr}
-      .savings{grid-template-columns:1fr}
-      .hero{padding:24px}
-      .card{padding:20px}
-      .metric .v{font-size:28px}
-    }
+    body{margin:0;font-family:Arial, Helvetica, sans-serif;background:var(--bg);color:var(--text);line-height:1.45;}
+    .hero{background:linear-gradient(135deg,var(--primary),var(--primary-dark));color:#fff;padding:30px 16px;text-align:center;}
+    .hero h1{margin:0 auto 8px;max-width:960px;font-size:34px;}
+    .hero p{margin:0 auto;max-width:760px;font-size:16px;opacity:.95;}
+    .wrap{max-width:1120px;margin:24px auto;padding:0 16px 36px;}
+    .grid{display:grid;grid-template-columns:1.1fr .9fr;gap:20px;}
+    .card{background:var(--card);border:1px solid var(--border);border-radius:18px;box-shadow:0 8px 24px rgba(15,23,42,.06);padding:22px;}
+    .results{display:grid;grid-template-columns:repeat(3, 1fr);gap:12px;margin:16px 0 8px;}
+    .metric{border:1px solid var(--border);border-radius:16px;padding:16px;background:#fbfdff;}
+    .metric .label{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px;}
+    .metric .value{font-size:28px;font-weight:800;color:var(--success);}
+    .step{border:1px solid var(--border);border-radius:14px;padding:14px;margin-top:12px;background:#fbfdff;}
+    .actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:18px;}
+    .btn{display:inline-block;text-decoration:none;border-radius:12px;padding:12px 16px;font-weight:700;border:1px solid var(--border);}
+    .btn-primary{background:var(--primary);color:#fff;border-color:var(--primary);}
+    .btn-secondary{background:#e8eef5;color:var(--text);}
+    .smallprint{font-size:12px;color:var(--muted);margin-top:12px;}
+    @media (max-width: 860px){.grid{grid-template-columns:1fr}.results{grid-template-columns:1fr}.hero h1{font-size:28px}}
   </style>
 </head>
 <body>
-  <div class="wrap">
-    <section class="hero">
-      <span class="badge">Dealership Science</span>
-      <h1 id="headline">Here’s Your EV Savings Snapshot</h1>
-      <p id="intro">Thanks for taking the next step. Based on the information you entered, here is your estimated fuel-cost savings if you switch to an EV.</p>
+  <section class="hero">
+    <h1 id="headline">Your EV Savings Plan</h1>
+    <p id="subline">Thanks for taking the next step.</p>
+  </section>
 
-      <div class="savings">
-        <div class="metric">
-          <div class="k">Weekly Savings</div>
-          <div class="v" id="weekly">$0.00</div>
+  <main class="wrap">
+    <div class="grid">
+      <section class="card">
+        <h2>Your Estimated Savings</h2>
+        <div class="results">
+          <div class="metric">
+            <div class="label">Weekly Savings</div>
+            <div class="value" id="weekly">$0.00</div>
+          </div>
+          <div class="metric">
+            <div class="label">Monthly Savings</div>
+            <div class="value" id="monthly">$0.00</div>
+          </div>
+          <div class="metric">
+            <div class="label">Yearly Savings</div>
+            <div class="value" id="yearly">$0.00</div>
+          </div>
         </div>
-        <div class="metric">
-          <div class="k">Monthly Savings</div>
-          <div class="v" id="monthly">$0.00</div>
-        </div>
-        <div class="metric">
-          <div class="k">Yearly Savings</div>
-          <div class="v" id="yearly">$0.00</div>
-        </div>
-      </div>
+        <div class="smallprint" id="dealerLine"></div>
+      </section>
 
-      <div class="recap" id="recapBox">
-        Estimated savings: <span id="recapInline">Your personalized EV savings summary is shown above.</span>
-      </div>
-    </section>
-
-    <section class="grid">
-      <div class="card">
+      <section class="card">
         <h2>What Happens Next</h2>
-        <p class="lead">You’ve got the numbers. The next move is seeing which EV fits your budget, driving habits, and available incentives.</p>
+        <div class="step"><strong>1. Your results are saved.</strong><br>Your calculator values are now part of your follow-up experience.</div>
+        <div class="step"><strong>2. A dealership representative can contact you.</strong><br>We can help you compare gas vs electric, available EV inventory, trade value, and test drive options.</div>
+        <div class="step"><strong>3. Keep the momentum going.</strong><br>Use the buttons below to continue your EV journey.</div>
 
-        <div class="steps">
-          <div class="step">
-            <div class="n">1</div>
-            <div>
-              <strong>Review your savings</strong>
-              <div class="tiny">Your weekly, monthly, and yearly estimates are shown above so you can compare them against what you’re spending now.</div>
-            </div>
-          </div>
-          <div class="step">
-            <div class="n">2</div>
-            <div>
-              <strong>Match the right EV</strong>
-              <div class="tiny">A store representative can help narrow down the best EV based on payment goals, charging access, and range needs.</div>
-            </div>
-          </div>
-          <div class="step">
-            <div class="n">3</div>
-            <div>
-              <strong>Take the next action</strong>
-              <div class="tiny">Browse inventory, request a trade value, or contact the dealership to keep the conversation moving.</div>
-            </div>
-          </div>
+        <div class="actions">
+          <a href="index.html" class="btn btn-secondary">Run Another Comparison</a>
+          <a href="#" class="btn btn-primary">View Inventory</a>
         </div>
-
-        <div class="cta-row">
-          <a class="btn btn-primary" href="https://www.timshortford.com/inventory/used,new?paymenttype=cash&fueltypes=electric%20fuel%20system&intransit=false&instock=false&inproduction=false" id="inventoryBtn">⚡ View EV Inventory</a>
-          <a class="btn btn-secondary" href="tel:+16064622200" id="contactBtn">📞 Contact the Dealership</a>
-        </div>
-      </div>
-
-      <div class="card">
-        <h2>Your Savings Recap</h2>
-        <p class="lead" id="personalText">This estimate gives you a quick way to measure what electric ownership could mean for your wallet.</p>
-
-        <div class="steps">
-          <div class="step">
-            <div class="n">✓</div>
-            <div>
-              <strong>Lower operating costs</strong>
-              <div class="tiny">Fuel savings are often one of the easiest ways to show EV value in real numbers.</div>
-            </div>
-          </div>
-          <div class="step">
-            <div class="n">✓</div>
-            <div>
-              <strong>Better buying conversation</strong>
-              <div class="tiny">Real savings can help justify payment differences and move the conversation beyond just sticker price.</div>
-            </div>
-          </div>
-          <div class="step">
-            <div class="n">✓</div>
-            <div>
-              <strong>Ready for follow-up</strong>
-              <div class="tiny">This page works with live lead traffic and gives the shopper a clear, branded destination after form submission.</div>
-            </div>
-          </div>
-        </div>
-
-        
-      </div>
-    </section>
-  </div>
+      </section>
+    </div>
+  </main>
 
   <script>
-    function rawParam(name){
-      const params = new URLSearchParams(window.location.search);
-      return params.get(name);
-    }
+    const params = new URLSearchParams(window.location.search);
+    const firstName = params.get("first_name") || "there";
+    const dealer = params.get("dealer") || "your dealership";
+    const weekly = params.get("weekly") || "$0.00";
+    const monthly = params.get("monthly") || "$0.00";
+    const yearly = params.get("yearly") || "$0.00";
+    const cta = params.get("cta") || "your EV savings plan";
 
-    function parseMoney(value){
-      if(value === null || value === undefined || value === "") return null;
-      const cleaned = String(value).replace(/[^0-9.-]/g,"");
-      const num = parseFloat(cleaned);
-      return Number.isFinite(num) ? num : null;
-    }
-
-    function moneyText(value){
-      return new Intl.NumberFormat("en-US", {
-        style: "currency",
-        currency: "USD",
-        minimumFractionDigits: 2,
-        maximumFractionDigits: 2
-      }).format(value);
-    }
-
-    const first = rawParam("first_name") || "there";
-    const dealer = rawParam("dealer") || "Tim Short Ford of Morehead";
-    const cta = rawParam("cta") || "your EV savings plan";
-
-    let weekly = parseMoney(rawParam("weekly"));
-    let monthly = parseMoney(rawParam("monthly"));
-    let yearly = parseMoney(rawParam("yearly"));
-
-    if(weekly === null) weekly = parseMoney(localStorage.getItem("weeklySavings"));
-    if(monthly === null) monthly = parseMoney(localStorage.getItem("monthlySavings"));
-    if(yearly === null) yearly = parseMoney(localStorage.getItem("yearlySavings"));
-
-    if(weekly === null) weekly = 0;
-    if(monthly === null) monthly = 0;
-    if(yearly === null) yearly = 0;
-
-    document.getElementById("headline").textContent = "Nice work, " + first + " — here’s your EV savings snapshot";
-    document.getElementById("intro").textContent = "Thanks for taking the next step with " + dealer + ". Based on the information you submitted, here is what switching to electric could mean for your budget.";
-    document.getElementById("weekly").textContent = moneyText(weekly);
-    document.getElementById("monthly").textContent = moneyText(monthly);
-    document.getElementById("yearly").textContent = moneyText(yearly);
-
-    const recap = document.getElementById("recapBox");
-    const personal = document.getElementById("personalText");
-    const recapInline = document.getElementById("recapInline");
-
-    if (weekly > 0 || monthly > 0 || yearly > 0) {
-      recapInline.textContent = moneyText(weekly) + " per week, " + moneyText(monthly) + " per month, and " + moneyText(yearly) + " per year.";
-      personal.textContent = "You asked about " + cta + ". Based on your estimate, switching to an EV could mean meaningful long-term savings for your budget.";
-    } else {
-      recapInline.textContent = "Your personalized EV savings summary is shown above.";
-      personal.textContent = "This estimate gives you a quick way to compare your current fuel costs with a more efficient electric option.";
-    }
+    document.getElementById("headline").textContent = `Nice work, ${firstName} — here’s your EV savings plan`;
+    document.getElementById("subline").textContent = `Thanks for connecting with ${dealer}. You asked us about ${cta}.`;
+    document.getElementById("weekly").textContent = weekly;
+    document.getElementById("monthly").textContent = monthly;
+    document.getElementById("yearly").textContent = yearly;
+    document.getElementById("dealerLine").textContent = `Prepared for ${dealer}.`;
   </script>
 </body>
 </html>

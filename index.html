@@ -386,7 +386,7 @@
       apiKey: "REPLACE_WITH_YOUR_SERVER_KEY_OR_REMOVE_FROM_FRONTEND",
 
       // Redirect after success
-      redirectUrl: "https://www.dealershipscience.com/thank-you",
+      redirectUrl: "thank-you.html",
 
       // Optional behaviors
       includeCalculationData: true,
@@ -591,15 +591,31 @@
         }
 
         showStatus("Success. Redirecting to your Dealership Science landing page...", "info");
+        const params = new URLSearchParams({
+          first_name: payload.customer.first_name || "",
+          dealer: payload.dealer.dealer_name || "",
+          weekly: (payload.calculator && payload.calculator.weekly_savings) || "",
+          monthly: (payload.calculator && payload.calculator.monthly_savings) || "",
+          yearly: (payload.calculator && payload.calculator.yearly_savings) || "",
+          cta: payload.lead.subject || ""
+        });
         setTimeout(() => {
-          window.location.href = config.redirectUrl || "https://www.dealershipscience.com/thank-you";
+          window.location.href = (config.redirectUrl || "thank-you.html") + "?" + params.toString();
         }, 600);
       } catch (error) {
         console.error(error);
         showStatus("Almost there... taking you to your results.", "info");
+        const params = new URLSearchParams({
+          first_name: payload.customer.first_name || "",
+          dealer: payload.dealer.dealer_name || "",
+          weekly: (payload.calculator && payload.calculator.weekly_savings) || "",
+          monthly: (payload.calculator && payload.calculator.monthly_savings) || "",
+          yearly: (payload.calculator && payload.calculator.yearly_savings) || "",
+          cta: payload.lead.subject || ""
+        });
         setTimeout(() => {
-          window.location.href = config.redirectUrl || "thank-you.html";
-        }, 500);
+          window.location.href = (config.redirectUrl || "thank-you.html") + "?" + params.toString();
+        }, 600);
       }
     }
 
