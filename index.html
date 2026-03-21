@@ -6,27 +6,15 @@
   <title>Dealership Science | EV Fuel Savings Calculator</title>
   <style>
     :root {
-      --bg:#f8fafc;
-      --bg-soft:#eef4f9;
-      --card:#ffffff;
-      --text:#0f172a;
-      --muted:#64748b;
-      --line:#e2e8f0;
-      --accent:#ff5a1f;
-      --accent-dark:#e14c18;
-      --brand:#0c2c4f;
-      --brand-soft:#eef5fb;
-      --success-soft:#ecfdf5;
-      --success-text:#065f46;
-      --dark:#0f172a;
+      --bg:#f8fafc; --bg-soft:#eef4f9; --card:#ffffff; --text:#0f172a; --muted:#64748b;
+      --line:#e2e8f0; --accent:#ff5a1f; --accent-dark:#e14c18; --brand:#0c2c4f;
+      --brand-soft:#eef5fb; --success-soft:#ecfdf5; --success-text:#065f46;
     }
     * { box-sizing:border-box; }
     body {
-      margin:0;
-      font-family:Arial, Helvetica, sans-serif;
+      margin:0; font-family:Arial, Helvetica, sans-serif;
       background:linear-gradient(180deg,var(--bg) 0%,var(--bg-soft) 100%);
-      color:var(--text);
-      line-height:1.45;
+      color:var(--text); line-height:1.45;
     }
     .wrap { max-width:1220px; margin:0 auto; padding:24px; }
     .brandbar {
@@ -50,7 +38,8 @@
     .grid { display:grid; grid-template-columns:1.1fr .9fr; gap:28px; }
     h1 { margin:8px 0 10px; font-size:clamp(2rem, 4vw, 3rem); line-height:1.05; }
     .eyebrow {
-      color:var(--brand); font-size:12px; font-weight:800; letter-spacing:.18em; text-transform:uppercase;
+      color:var(--brand); font-size:12px; font-weight:800; letter-spacing:.18em;
+      text-transform:uppercase;
     }
     .sub { color:var(--muted); max-width:760px; font-size:17px; }
     .toggle {
@@ -59,7 +48,7 @@
     }
     .toggle button {
       border:none; border-radius:14px; padding:14px 16px; font-weight:700;
-      background:transparent; color:#475569; cursor:pointer; transition:.2s ease;
+      background:transparent; color:#475569; cursor:pointer;
     }
     .toggle button.active {
       background:#fff; color:var(--text); box-shadow:0 2px 10px rgba(15,23,42,.08);
@@ -108,9 +97,7 @@
     .card h3 { margin:0; font-size:14px; color:var(--muted); }
     .card .price { font-size:2rem; font-weight:800; margin:10px 0 4px; }
     .rows { margin-top:12px; border-top:1px solid var(--line); padding-top:12px; }
-    .row {
-      display:flex; justify-content:space-between; gap:14px; padding:6px 0; font-size:14px; color:var(--muted);
-    }
+    .row { display:flex; justify-content:space-between; gap:14px; padding:6px 0; font-size:14px; color:var(--muted); }
     .row strong { color:var(--text); }
     .lead-card {
       margin-top:16px; border-radius:22px; border:1px solid #dbe7f3;
@@ -124,17 +111,9 @@
       display:inline-flex; align-items:center; justify-content:center; width:100%;
       border:none; border-radius:16px; padding:15px 18px; background:var(--accent);
       color:#fff; font-size:16px; font-weight:800; cursor:pointer;
-      box-shadow:0 8px 18px rgba(255,90,31,.18); transition:.2s ease;
+      box-shadow:0 8px 18px rgba(255,90,31,.18);
     }
     .btn:hover { background:var(--accent-dark); }
-    .cta-trigger { margin-top:12px; }
-    .cta-menu { display:none; margin-top:12px; }
-    .cta-link {
-      display:block; text-decoration:none; background:#f8fafc; border:1px solid var(--line);
-      color:var(--text); border-radius:14px; padding:13px 14px; font-weight:700; margin-bottom:8px;
-      transition:.2s ease;
-    }
-    .cta-link:hover { background:#eef4f9; }
     .how { margin-top:16px; }
     .how h3 { margin-top:0; }
     .how p { color:var(--muted); margin:10px 0; }
@@ -178,10 +157,7 @@
 
           <div class="fields">
             <div class="field" id="spendField">
-              <label>
-                <span>Weekly gas spend</span>
-                <span class="hint">How much you currently spend each week</span>
-              </label>
+              <label><span>Weekly gas spend</span><span class="hint">How much you currently spend each week</span></label>
               <div class="input-wrap">
                 <span class="prefix">$</span>
                 <input id="weeklyGasSpend" class="has-prefix" type="number" min="0" step="1" value="75" />
@@ -189,18 +165,12 @@
             </div>
 
             <div class="field" id="milesField" style="display:none;">
-              <label>
-                <span>Miles driven per week</span>
-                <span class="hint">Your estimated weekly driving distance</span>
-              </label>
+              <label><span>Miles driven per week</span><span class="hint">Your estimated weekly driving distance</span></label>
               <input id="weeklyMiles" type="number" min="0" step="1" value="300" />
             </div>
 
             <div class="field">
-              <label>
-                <span>Current gas price</span>
-                <span class="hint">Adjust to local market rate</span>
-              </label>
+              <label><span>Current gas price</span><span class="hint">Adjust to local market rate</span></label>
               <div class="input-wrap">
                 <span class="prefix">$</span>
                 <input id="gasPrice" class="has-prefix" type="number" min="0" step="0.01" value="3.29" />
@@ -208,18 +178,12 @@
             </div>
 
             <div class="field">
-              <label>
-                <span>Current vehicle MPG</span>
-                <span class="hint">Used to estimate gas cost and miles</span>
-              </label>
+              <label><span>Current vehicle MPG</span><span class="hint">Used to estimate gas cost and miles</span></label>
               <input id="gasMpg" type="number" min="1" step="1" value="25" />
             </div>
 
             <div class="field">
-              <label>
-                <span>Electric rate</span>
-                <span class="hint">What you pay for electricity</span>
-              </label>
+              <label><span>Electric rate</span><span class="hint">What you pay for electricity</span></label>
               <div class="input-wrap">
                 <span class="prefix">$</span>
                 <input id="electricRate" class="has-prefix" type="number" min="0" step="0.01" value="0.09" />
@@ -227,10 +191,7 @@
             </div>
 
             <div class="field">
-              <label>
-                <span>EV efficiency</span>
-                <span class="hint">How much electricity the EV uses per mile. Lower = better.</span>
-              </label>
+              <label><span>EV efficiency</span><span class="hint">How much electricity the EV uses per mile. Lower = better.</span></label>
               <input id="evKwhPerMile" type="number" min="0" step="0.01" value="0.30" />
             </div>
           </div>
@@ -275,10 +236,10 @@
 
           <div class="lead-card">
             <h3 class="lead-title">Get your personalized EV savings plan</h3>
-            <p class="lead-sub">Enter your contact information and send your EV savings results for follow-up.</p>
+            <p class="lead-sub">Choose what you want help with, then send your information for follow-up.</p>
 
-            <form action="https://formsubmit.co/chris@dealershipscience.com" method="POST">
-              <input type="hidden" name="_subject" value="New EV Lead" />
+            <form action="https://formsubmit.co/chris@dealershipscience.com" method="POST" id="leadForm">
+              <input type="hidden" name="_subject" id="formSubject" value="EV Savings Plan Lead" />
               <input type="hidden" name="_captcha" value="false" />
               <input type="hidden" name="_template" value="table" />
               <input type="hidden" name="weekly_savings" id="formWeeklySavings" value="" />
@@ -290,17 +251,16 @@
                 <input name="name" type="text" placeholder="Full name" required />
                 <input name="phone" type="tel" placeholder="Phone number" required />
                 <input name="email" type="email" class="full" placeholder="Email address" required />
-                <button class="btn full" type="submit">Get My EV Savings Plan</button>
+                <select id="ctaChoice" name="lead_interest" class="full" required>
+                  <option value="">Choose what you want help with</option>
+                  <option value="Trade My Vehicle">Trade My Vehicle</option>
+                  <option value="Get Pre-Approved">Get Pre-Approved</option>
+                  <option value="View EV Inventory">View EV Inventory</option>
+                  <option value="Build My Payment Plan">Build My Payment Plan</option>
+                </select>
+                <button class="btn full" type="submit">Send My Request</button>
               </div>
             </form>
-
-            <button class="btn cta-trigger" type="button" onclick="toggleCTA()">See Your EV Options</button>
-            <div id="ctaMenu" class="cta-menu">
-              <a href="#" class="cta-link">🚗 Trade My Vehicle</a>
-              <a href="#" class="cta-link">💳 Get Pre-Approved</a>
-              <a href="#" class="cta-link">⚡ View EV Inventory</a>
-              <a href="#" class="cta-link">📊 Build My Payment Plan</a>
-            </div>
           </div>
 
           <div class="cards">
@@ -330,10 +290,7 @@
             <p><strong>Gas cost</strong> = miles driven ÷ MPG × gas price</p>
             <p><strong>EV cost</strong> = miles driven × kWh per mile × electricity rate</p>
             <p>Electricity is preset to <strong>$0.09/kWh</strong> based on your Kentucky utilities assumption.</p>
-            <p class="foot">
-              This estimate focuses on fuel and charging cost only. It does not include maintenance,
-              insurance, charger installation, taxes, or financing.
-            </p>
+            <p class="foot">This estimate focuses on fuel and charging cost only. It does not include maintenance, insurance, charger installation, taxes, or financing.</p>
           </div>
         </section>
       </div>
@@ -367,7 +324,10 @@
       formWeeklySavings: document.getElementById('formWeeklySavings'),
       formMonthlySavings: document.getElementById('formMonthlySavings'),
       formYearlySavings: document.getElementById('formYearlySavings'),
-      formWeeklyMiles: document.getElementById('formWeeklyMiles')
+      formWeeklyMiles: document.getElementById('formWeeklyMiles'),
+      formSubject: document.getElementById('formSubject'),
+      ctaChoice: document.getElementById('ctaChoice'),
+      leadForm: document.getElementById('leadForm')
     };
 
     let entryMode = 'spend';
@@ -447,13 +407,15 @@
       els.formWeeklyMiles.value = fmtNumber(milesUsed, 0) + " miles";
     }
 
-    function toggleCTA() {
-      const menu = document.getElementById('ctaMenu');
-      menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+    function updateSubject() {
+      const choice = els.ctaChoice.value || 'EV Savings Plan';
+      els.formSubject.value = choice + ' Lead';
     }
 
     els.modeSpend.addEventListener('click', () => setMode('spend'));
     els.modeMiles.addEventListener('click', () => setMode('miles'));
+    els.ctaChoice.addEventListener('change', updateSubject);
+    els.leadForm.addEventListener('submit', updateSubject);
 
     [
       els.weeklyGasSpend,
@@ -465,6 +427,7 @@
     ].forEach(el => el.addEventListener('input', calculate));
 
     calculate();
+    updateSubject();
   </script>
 </body>
 </html>
