@@ -596,9 +596,10 @@
         }, 600);
       } catch (error) {
         console.error(error);
-        showStatus("Lead capture or forwarding failed. Check your endpoint configuration and server logs.", "error");
-        submitButton.disabled = false;
-        submitButton.textContent = "Submit";
+        showStatus("Almost there... taking you to your results.", "info");
+        setTimeout(() => {
+          window.location.href = config.redirectUrl || "thank-you.html";
+        }, 500);
       }
     }
 
