@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dealership Science | Your EV Savings Path</title>
+  <style>
+    :root{
+      --text:#eef6ff;--muted:#a9bdd6;--primary:#5ad1ff;--primary2:#8d6bff;--success:#35e08a;--line:rgba(255,255,255,.12);
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;font-family:Inter,Arial,Helvetica,sans-serif;color:var(--text);
+      background:
+        radial-gradient(circle at top left, rgba(90,209,255,.18), transparent 28%),
+        radial-gradient(circle at top right, rgba(141,107,255,.18), transparent 26%),
+        linear-gradient(180deg, #07101d 0%, #091424 100%);
+      min-height:100vh;
+    }
+    .wrap{max-width:1100px;margin:0 auto;padding:24px 18px 40px}
+    .hero{border:1px solid var(--line);border-radius:28px;padding:34px;background:linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.04));box-shadow:0 0 0 1px rgba(90,209,255,.2), 0 0 30px rgba(90,209,255,.12)}
+    .badge{display:inline-block;padding:8px 12px;border-radius:999px;border:1px solid rgba(90,209,255,.24);background:rgba(90,209,255,.08);font-size:12px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:#c8f3ff}
+    h1{font-size:clamp(34px,5vw,62px);line-height:1.02;margin:16px 0 10px;max-width:920px}
+    .hero p{margin:0;max-width:800px;color:var(--muted);font-size:18px;line-height:1.55}
+    .grid{display:grid;grid-template-columns:1.1fr .9fr;gap:22px;margin-top:22px}
+    .card{border:1px solid var(--line);border-radius:24px;padding:24px;background:rgba(255,255,255,.05)}
+    .savings{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:18px}
+    .metric{padding:18px;border-radius:18px;background:rgba(255,255,255,.05);border:1px solid var(--line)}
+    .metric .k{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;font-weight:800}
+    .metric .v{font-size:30px;font-weight:900;margin-top:10px;color:var(--success)}
+    h2{margin:0 0 8px;font-size:24px}
+    .sub,.tiny{color:var(--muted);font-size:14px;line-height:1.55}
+    .steps{display:grid;gap:12px;margin-top:18px}
+    .step{display:flex;gap:12px;padding:14px;border-radius:18px;background:rgba(255,255,255,.05);border:1px solid var(--line)}
+    .n{min-width:38px;height:38px;border-radius:12px;display:grid;place-items:center;background:linear-gradient(135deg,var(--primary),var(--primary2));color:#07111d;font-weight:900}
+    .cta-row{display:flex;gap:12px;flex-wrap:wrap;margin-top:22px}
+    .btn{display:inline-flex;align-items:center;justify-content:center;padding:14px 18px;border-radius:16px;text-decoration:none;font-weight:900;letter-spacing:.02em}
+    .btn-primary{background:linear-gradient(135deg,var(--primary),var(--primary2));color:#07111d}
+    .btn-secondary{background:rgba(255,255,255,.08);border:1px solid var(--line);color:var(--text)}
+    @media (max-width: 940px){.grid{grid-template-columns:1fr}.savings{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <section class="hero">
+      <span class="badge">Dealership Science</span>
+      <h1 id="headline">Your EV Savings Path Starts Here</h1>
+      <p id="intro">Thank you for submitting your information. Your personalized path to lower fuel costs, smarter shopping, and a stronger vehicle value conversation starts right now.</p>
+      <div class="savings">
+        <div class="metric"><div class="k">Weekly Savings</div><div class="v" id="weekly">$0.00</div></div>
+        <div class="metric"><div class="k">Monthly Savings</div><div class="v" id="monthly">$0.00</div></div>
+        <div class="metric"><div class="k">Yearly Savings</div><div class="v" id="yearly">$0.00</div></div>
+      </div>
+    </section>
+
+    <section class="grid">
+      <div class="card">
+        <h2>What Happens Next</h2>
+        <div class="sub">This landing page is designed to continue the momentum after the form submit instead of dropping the shopper into a dead end.</div>
+        <div class="steps">
+          <div class="step"><div class="n">1</div><div><strong>Your savings are locked in</strong><div class="tiny">Use the numbers above to shape your buying conversation and compare your current vehicle to an EV.</div></div></div>
+          <div class="step"><div class="n">2</div><div><strong>A dealership representative can follow up</strong><div class="tiny">This page works great after a live lead capture or as a clean preview while your endpoint is still being connected.</div></div></div>
+          <div class="step"><div class="n">3</div><div><strong>Turn interest into action</strong><div class="tiny">Invite the shopper to view inventory, book a test drive, or request a trade value next.</div></div></div>
+        </div>
+        <div class="cta-row">
+          <a class="btn btn-primary" href="#" id="inventoryBtn">⚡ View EV Inventory</a>
+          <a class="btn btn-secondary" href="#" id="contactBtn">📞 Contact the Dealership</a>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>A Better Follow-Up Experience</h2>
+        <div class="sub" id="personalText">This is where Dealership Science can continue the customer journey with inventory, feature highlights, a trade CTA, or a booking module.</div>
+        <div class="steps">
+          <div class="step"><div class="n">✓</div><div><strong>White-label ready</strong><div class="tiny">Swap logos, colors, and CTA links by rooftop.</div></div></div>
+          <div class="step"><div class="n">✓</div><div><strong>Perfect for Meta campaigns</strong><div class="tiny">The customer sees a modern branded continuation, not a generic dead-end thank-you message.</div></div></div>
+          <div class="step"><div class="n">✓</div><div><strong>Ready to expand</strong><div class="tiny">You can later add inventory, scheduler, credit app, or video walkaround modules.</div></div></div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const first = params.get("first_name") || "there";
+    const dealer = params.get("dealer") || "your dealership";
+    const weekly = params.get("weekly") || "$0.00";
+    const monthly = params.get("monthly") || "$0.00";
+    const yearly = params.get("yearly") || "$0.00";
+    const cta = params.get("cta") || "your EV plan";
+    document.getElementById("headline").textContent = "Nice work, " + first + " — here’s your EV savings path";
+    document.getElementById("intro").textContent = "Thanks for taking the next step with " + dealer + ". You just explored what switching to electric could mean for your budget. Here’s the value snapshot from your request.";
+    document.getElementById("weekly").textContent = weekly;
+    document.getElementById("monthly").textContent = monthly;
+    document.getElementById("yearly").textContent = yearly;
+    document.getElementById("personalText").textContent = "You asked us to help with \"" + cta + ".\" This page can now guide the shopper into inventory, appointment setting, trade valuation, or a tailored product presentation.";
+  </script>
+</body>
+</html>
