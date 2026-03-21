@@ -217,7 +217,7 @@
       <section class="card">
         <div class="badge" id="dealerMessage">Customized for your dealership</div>
         <h2>Calculate Your Estimated EV Savings</h2>
-        <p class="sub">Use current fuel and electricity estimates to compare your present gas spend to a typical EV.</p>
+        <p class="sub">Use current fuel and electricity estimates to compare your present gas spend or weekly miles to a typical EV.</p>
 
         <div class="row">
           <div class="field">
@@ -387,6 +387,7 @@
 
       // Redirect after success
       redirectUrl: "thank-you.html",
+      inventoryUrl: "https://www.dealershipscience.com/inventory",
 
       // Optional behaviors
       includeCalculationData: true,
@@ -421,13 +422,15 @@
     }
 
     function calculateSavings() {
-      const gasSpend = parseFloat(document.getElementById("gasSpend").value) || 0;
+      const mode = window.calcMode || "spend";
+      const gasSpendInput = parseFloat(document.getElementById("gasSpend").value) || 0;
+      const weeklyMilesInput = parseFloat(document.getElementById("weeklyMiles").value) || 0;
       const gasPrice = parseFloat(document.getElementById("gasPrice").value) || 0;
       const mpg = parseFloat(document.getElementById("mpg").value) || 0;
       const electricRate = parseFloat(document.getElementById("electricRate").value) || 0;
       const efficiency = parseFloat(document.getElementById("efficiency").value) || 0;
 
-      if (!gasSpend || !gasPrice || !mpg || !electricRate || !efficiency) {
+      if (!gasPrice || !mpg || !electricRate || !efficiency || (mode === "spend" && !gasSpendInput) || (mode === "miles" && !weeklyMilesInput)) {
         document.getElementById("resultsNote").textContent = "Please enter valid values in all calculator fields.";
         document.getElementById("weeklySavings").textContent = currency(0);
         document.getElementById("monthlySavings").textContent = currency(0);
@@ -435,9 +438,10 @@
         return;
       }
 
-      const estimatedMiles = (gasSpend / gasPrice) * mpg;
+      const estimatedMiles = mode === "miles" ? weeklyMilesInput : (gasSpendInput / gasPrice) * mpg;
+      const gasWeeklyCost = mode === "miles" ? (estimatedMiles / mpg) * gasPrice : gasSpendInput;
       const evWeeklyCost = estimatedMiles * efficiency * electricRate;
-      const weekly = gasSpend - evWeeklyCost;
+      const weekly = gasWeeklyCost - evWeeklyCost;
       const monthly = weekly * 4.33;
       const yearly = weekly * 52;
 
@@ -445,19 +449,41 @@
       document.getElementById("monthlySavings").textContent = currency(monthly);
       document.getElementById("yearlySavings").textContent = currency(yearly);
       document.getElementById("resultsNote").innerHTML =
-        "Based on your current gas spend, you drive an estimated <strong>" +
+        "Based on your current " + (mode === "miles" ? "weekly miles" : "gas spend") + ", you drive an estimated <strong>" +
         Math.round(estimatedMiles).toLocaleString() +
         " miles per week</strong>. Estimated EV charging cost for that driving is <strong>" +
         currency(evWeeklyCost) + " per week</strong>.";
     }
 
+    function setCalcMode(mode) {
+      window.calcMode = mode;
+      const spendField = document.getElementById("gasSpendField");
+      const milesField = document.getElementById("weeklyMilesField");
+      const spendBtn = document.getElementById("modeSpendBtn");
+      const milesBtn = document.getElementById("modeMilesBtn");
+
+      if (mode === "miles") {
+        spendField.classList.add("hidden");
+        milesField.classList.remove("hidden");
+        spendBtn.classList.add("secondary");
+        milesBtn.classList.remove("secondary");
+      } else {
+        spendField.classList.remove("hidden");
+        milesField.classList.add("hidden");
+        spendBtn.classList.remove("secondary");
+        milesBtn.classList.add("secondary");
+      }
+      calculateSavings();
+    }
+
     function resetCalculator() {
       document.getElementById("gasSpend").value = "75";
+      if (document.getElementById("weeklyMiles")) document.getElementById("weeklyMiles").value = "575";
       document.getElementById("gasPrice").value = "3.29";
       document.getElementById("mpg").value = "25";
       document.getElementById("electricRate").value = "0.09";
       document.getElementById("efficiency").value = "0.30";
-      calculateSavings();
+      setCalcMode("spend");
     }
 
     function escapeHtml(str) {
@@ -494,7 +520,9 @@
 
     function getCalculationData() {
       return {
+        calculation_mode: window.calcMode || "spend",
         weekly_gas_spend: document.getElementById("gasSpend").value,
+        weekly_miles: document.getElementById("weeklyMiles") ? document.getElementById("weeklyMiles").value : "",
         gas_price: document.getElementById("gasPrice").value,
         mpg: document.getElementById("mpg").value,
         electric_rate: document.getElementById("electricRate").value,
@@ -597,7 +625,8 @@
           weekly: (payload.calculator && payload.calculator.weekly_savings) || "",
           monthly: (payload.calculator && payload.calculator.monthly_savings) || "",
           yearly: (payload.calculator && payload.calculator.yearly_savings) || "",
-          cta: payload.lead.subject || ""
+          cta: payload.lead.subject || "",
+          inventory_url: config.inventoryUrl || ""
         });
         setTimeout(() => {
           window.location.href = (config.redirectUrl || "thank-you.html") + "?" + params.toString();
@@ -611,7 +640,8 @@
           weekly: (payload.calculator && payload.calculator.weekly_savings) || "",
           monthly: (payload.calculator && payload.calculator.monthly_savings) || "",
           yearly: (payload.calculator && payload.calculator.yearly_savings) || "",
-          cta: payload.lead.subject || ""
+          cta: payload.lead.subject || "",
+          inventory_url: config.inventoryUrl || ""
         });
         setTimeout(() => {
           window.location.href = (config.redirectUrl || "thank-you.html") + "?" + params.toString();
@@ -621,7 +651,7 @@
 
     document.getElementById("leadForm").addEventListener("submit", handleFormSubmit);
     applyBranding();
-    calculateSavings();
+    setCalcMode("spend");
   </script>
 </body>
 </html>

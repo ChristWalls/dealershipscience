@@ -71,7 +71,7 @@
 
         <div class="actions">
           <a href="index.html" class="btn btn-secondary">Run Another Comparison</a>
-          <a href="#" class="btn btn-primary">View Inventory</a>
+          <a href="#" class="btn btn-primary" id="inventoryBtn">View Inventory</a>
         </div>
       </section>
     </div>
@@ -85,6 +85,7 @@
     const monthly = params.get("monthly") || "$0.00";
     const yearly = params.get("yearly") || "$0.00";
     const cta = params.get("cta") || "your EV savings plan";
+    const inventoryUrl = params.get("inventory_url") || "index.html";
 
     document.getElementById("headline").textContent = `Nice work, ${firstName} — here’s your EV savings plan`;
     document.getElementById("subline").textContent = `Thanks for connecting with ${dealer}. You asked us about ${cta}.`;
@@ -92,6 +93,7 @@
     document.getElementById("monthly").textContent = monthly;
     document.getElementById("yearly").textContent = yearly;
     document.getElementById("dealerLine").textContent = `Prepared for ${dealer}.`;
+    document.getElementById("inventoryBtn").href = inventoryUrl;
   </script>
 </body>
 </html>
