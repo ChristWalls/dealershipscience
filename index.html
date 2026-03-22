@@ -146,15 +146,7 @@
       font-size:12px;
       margin-bottom:8px;
     }
-    input, select, button.submit{
-      width:100%;
-      border:1px solid var(--line);
-      border-radius:12px;
-      padding:13px 14px;
-      font-size:16px;
-      background:#fff;
-    }
-    input:focus, select:focus{
+    input, select, input:focus, select:focus{
       outline:none;
       border-color:var(--blue);
       box-shadow:0 0 0 3px rgba(23,63,122,.12);
@@ -405,7 +397,7 @@
 
       <aside class="card right-card">
         <h3>Get your personalized EV savings plan</h3>
-        <p class="sub">Choose what you want help with, then send your information for follow-up.</p>
+        <p class="sub">Choose what you want help with, then send your information for follow-up from a dealership representative.</p>
 
         <div class="field">
           <label for="fullName">Full name</label>
@@ -421,14 +413,16 @@
         </div>
         <div class="field">
           <label for="helpType">Choose what you want help with</label>
-          <select id="helpType">
+          <textarea id="notes" placeholder="Anything else you want help with?" style="width:100%;border:1px solid #dbe5f1;border-radius:12px;padding:13px 14px;font-size:16px;background:#fff;min-height:72px;margin-top:10px;margin-bottom:12px"></textarea>
+        <select id="helpType">
             <option>Show Me Available EVs</option>
             <option>Compare Gas vs Electric</option>
             <option>Schedule an EV Test Drive</option>
             <option>Value My Trade for an EV</option>
           </select>
         </div>
-        <button class="submit" type="button">Send My Request</button>
+        <button class="submit" type="button" onclick="submitForm()">Get My Personalized EV Savings Plan</button>
+        <div style="font-size:12px;color:#5a6b84;line-height:1.55;margin-top:12px"><strong>Consent to Contact:</strong> By clicking <em>Get My Personalized EV Savings Plan</em>, you agree to be contacted by the dealership and its representatives by phone, text message, and email regarding your inquiry. Consent is not a condition of purchase. Message and data rates may apply.<br><br><strong>Privacy:</strong> Your information will be handled according to the dealership privacy policy and may be shared with affiliated partners and service providers for follow-up related to your request.</div>
 
         <div class="cost-boxes">
           <div class="cost">
@@ -528,5 +522,34 @@
 
     setMode('miles');
   </script>
+
+<div style="max-width:1120px;margin:30px auto 20px;padding:0 16px;font-size:12px;color:#5a6b84;line-height:1.6">
+<strong>Disclaimers:</strong><br>
+Estimates are based on user inputs and national averages. Actual savings may vary based on driving habits, vehicle condition, fuel prices, electricity rates, and environmental conditions.<br><br>
+This tool provides an estimate of fuel and energy cost differences only and does not include maintenance, insurance, financing, tax incentives, charger installation, or resale value.<br><br>
+Electricity rate is preset for Kentucky and may not reflect your exact utility provider. Always verify with your local provider.<br><br>
+By submitting this form, you consent to be contacted by the dealership regarding your inquiry.
+</div>
+
+<script>
+function submitForm(){
+  const name = document.getElementById('fullName').value || '';
+  const phone = document.getElementById('phone').value || '';
+  const email = document.getElementById('email').value || '';
+  const help = document.getElementById('helpType').value || '';
+  const notes = document.getElementById('notes').value || '';
+
+  const weekly = document.getElementById('weeklySavings').textContent;
+  const monthly = document.getElementById('monthlySavings').textContent;
+  const yearly = document.getElementById('yearlySavings').textContent;
+
+  const params = new URLSearchParams({
+    name, phone, email, help, notes, weekly, monthly, yearly
+  });
+
+  window.location.href = "thank-you.html?" + params.toString();
+}
+</script>
+
 </body>
 </html>
