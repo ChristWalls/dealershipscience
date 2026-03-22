@@ -3,96 +3,63 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Dealership Science | Your EV Savings Plan</title>
+  <title>Dealership Science | Thank You</title>
   <style>
     :root{
-      --primary:#003366;
-      --primary-dark:#00264d;
-      --bg:#f4f7fb;
-      --card:#ffffff;
-      --text:#18212b;
-      --muted:#5e6b78;
-      --border:#d8e0ea;
-      --success:#117a37;
+      --navy:#0e2b56; --blue:#173f7a; --bg:#eef4fb; --card:#ffffff; --text:#142033; --muted:#5a6b84; --line:#dbe5f1; --accent:#117a37;
     }
     *{box-sizing:border-box}
-    body{margin:0;font-family:Arial, Helvetica, sans-serif;background:var(--bg);color:var(--text);line-height:1.45;}
-    .hero{background:linear-gradient(135deg,var(--primary),var(--primary-dark));color:#fff;padding:30px 16px;text-align:center;}
-    .hero h1{margin:0 auto 8px;max-width:960px;font-size:34px;}
-    .hero p{margin:0 auto;max-width:760px;font-size:16px;opacity:.95;}
-    .wrap{max-width:1120px;margin:24px auto;padding:0 16px 36px;}
-    .grid{display:grid;grid-template-columns:1.1fr .9fr;gap:20px;}
-    .card{background:var(--card);border:1px solid var(--border);border-radius:18px;box-shadow:0 8px 24px rgba(15,23,42,.06);padding:22px;}
-    .results{display:grid;grid-template-columns:repeat(3, 1fr);gap:12px;margin:16px 0 8px;}
-    .metric{border:1px solid var(--border);border-radius:16px;padding:16px;background:#fbfdff;}
-    .metric .label{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px;}
-    .metric .value{font-size:28px;font-weight:800;color:var(--success);}
-    .step{border:1px solid var(--border);border-radius:14px;padding:14px;margin-top:12px;background:#fbfdff;}
-    .actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:18px;}
-    .btn{display:inline-block;text-decoration:none;border-radius:12px;padding:12px 16px;font-weight:700;border:1px solid var(--border);}
-    .btn-primary{background:var(--primary);color:#fff;border-color:var(--primary);}
-    .btn-secondary{background:#e8eef5;color:var(--text);}
-    .smallprint{font-size:12px;color:var(--muted);margin-top:12px;}
-    @media (max-width: 860px){.grid{grid-template-columns:1fr}.results{grid-template-columns:1fr}.hero h1{font-size:28px}}
+    body{margin:0;font-family:Arial, Helvetica, sans-serif;color:var(--text);background:linear-gradient(180deg,#f5f8fc 0%, #edf3fa 100%)}
+    .hero{background:linear-gradient(135deg,var(--navy),var(--blue));color:#fff;padding:28px 18px 34px}
+    .hero-inner,.wrap{max-width:1120px;margin:0 auto}
+    .card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:22px;box-shadow:0 8px 26px rgba(15,23,42,.06)}
+    .wrap{padding:24px 16px 38px}
+    .grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+    .metric{border:1px solid var(--line);border-radius:16px;padding:16px;background:#fbfdff;margin-top:12px}
+    .metric .k{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;font-weight:700;margin-bottom:8px}
+    .metric .v{font-size:28px;font-weight:800;color:var(--accent)}
+    .btn{display:inline-block;margin-top:14px;text-decoration:none;border-radius:12px;padding:12px 16px;font-weight:700;background:var(--navy);color:#fff}
+    p{line-height:1.55;color:var(--muted)}
+    @media (max-width: 860px){.grid{grid-template-columns:1fr}}
   </style>
 </head>
 <body>
   <section class="hero">
-    <h1 id="headline">Your EV Savings Plan</h1>
-    <p id="subline">Thanks for taking the next step.</p>
+    <div class="hero-inner">
+      <h1 id="headline" style="margin:0 0 8px;font-size:34px">Thank you</h1>
+      <p id="subline" style="margin:0;font-size:16px;opacity:.95">Your request has been received.</p>
+    </div>
   </section>
 
   <main class="wrap">
     <div class="grid">
       <section class="card">
-        <h2>Your Estimated Savings</h2>
-        <div class="results">
-          <div class="metric">
-            <div class="label">Weekly Savings</div>
-            <div class="value" id="weekly">$0.00</div>
-          </div>
-          <div class="metric">
-            <div class="label">Monthly Savings</div>
-            <div class="value" id="monthly">$0.00</div>
-          </div>
-          <div class="metric">
-            <div class="label">Yearly Savings</div>
-            <div class="value" id="yearly">$0.00</div>
-          </div>
-        </div>
-        <div class="smallprint" id="dealerLine"></div>
+        <h2 style="margin:0 0 10px;color:var(--navy)">Your EV savings snapshot</h2>
+        <div class="metric"><div class="k">Weekly savings</div><div class="v" id="weekly">$0.00</div></div>
+        <div class="metric"><div class="k">Monthly savings</div><div class="v" id="monthly">$0.00</div></div>
+        <div class="metric"><div class="k">Yearly savings</div><div class="v" id="yearly">$0.00</div></div>
       </section>
-
       <section class="card">
-        <h2>What Happens Next</h2>
-        <div class="step"><strong>1. Your results are saved.</strong><br>Your calculator values are now part of your follow-up experience.</div>
-        <div class="step"><strong>2. A dealership representative can contact you.</strong><br>We can help you compare gas vs electric, available EV inventory, trade value, and test drive options.</div>
-        <div class="step"><strong>3. Keep the momentum going.</strong><br>Use the buttons below to continue your EV journey.</div>
-
-        <div class="actions">
-          <a href="index.html" class="btn btn-secondary">Run Another Comparison</a>
-          <a href="#" class="btn btn-primary" id="inventoryBtn">View Inventory</a>
-        </div>
+        <h2 style="margin:0 0 10px;color:var(--navy)">What happens next</h2>
+        <p>A dealership representative may follow up with you by phone, text message, or email regarding your request.</p>
+        <p id="helpText"></p>
+        <a class="btn" href="index.html">Run Another Comparison</a>
+        <a class="btn" id="inventoryBtn" href="#">View EV Inventory</a>
       </section>
     </div>
   </main>
 
   <script>
     const params = new URLSearchParams(window.location.search);
-    const firstName = params.get("first_name") || "there";
-    const dealer = params.get("dealer") || "your dealership";
-    const weekly = params.get("weekly") || "$0.00";
-    const monthly = params.get("monthly") || "$0.00";
-    const yearly = params.get("yearly") || "$0.00";
-    const cta = params.get("cta") || "your EV savings plan";
-    const inventoryUrl = params.get("inventory_url") || "index.html";
-
-    document.getElementById("headline").textContent = `Nice work, ${firstName} — here’s your EV savings plan`;
-    document.getElementById("subline").textContent = `Thanks for connecting with ${dealer}. You asked us about ${cta}.`;
-    document.getElementById("weekly").textContent = weekly;
-    document.getElementById("monthly").textContent = monthly;
-    document.getElementById("yearly").textContent = yearly;
-    document.getElementById("dealerLine").textContent = `Prepared for ${dealer}.`;
+    const inventoryUrl = params.get("inventory_url") || "https://www.dealershipscience.com/inventory";
+    const name = params.get("name") || "there";
+    const help = params.get("help") || "your EV savings plan";
+    document.getElementById("headline").textContent = `Thank you, ${name}`;
+    document.getElementById("subline").textContent = `We received your request for ${help}.`;
+    document.getElementById("weekly").textContent = params.get("weekly") || "$0.00";
+    document.getElementById("monthly").textContent = params.get("monthly") || "$0.00";
+    document.getElementById("yearly").textContent = params.get("yearly") || "$0.00";
+    document.getElementById("helpText").textContent = params.get("notes") ? `Additional notes received: ${params.get("notes")}` : "Your information has been submitted for follow-up.";
     document.getElementById("inventoryBtn").href = inventoryUrl;
   </script>
 </body>

@@ -532,6 +532,8 @@ By submitting this form, you consent to be contacted by the dealership regarding
 </div>
 
 <script>
+const inventoryUrl = 'https://www.dealershipscience.com/inventory';
+
 function submitForm(){
   const name = document.getElementById('fullName').value || '';
   const phone = document.getElementById('phone').value || '';
@@ -544,7 +546,7 @@ function submitForm(){
   const yearly = document.getElementById('yearlySavings').textContent;
 
   const params = new URLSearchParams({
-    name, phone, email, help, notes, weekly, monthly, yearly
+    name, phone, email, help, notes, weekly, monthly, yearly, inventory_url: inventoryUrl
   });
 
   window.location.href = "thank-you.html?" + params.toString();
