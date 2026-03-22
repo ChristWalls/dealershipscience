@@ -336,7 +336,7 @@
           </div>
 
           <div class="actions">
-            <button type="submit" id="submitButton">Submit</button>
+            <button type="submit" id="submitButton">Get My Personalized EV Savings Plan</button>
           </div>
 
           <div id="formStatus" class="status info"></div>
@@ -381,16 +381,17 @@
       // Reporting / capture
       leadSource: "Dealership Science EV Calculator",
       leadMedium: "Website Form",
-      dsCaptureEndpoint: "https://www.dealershipscience.com/api/leads/capture",
-      dealerForwardEndpoint: "https://www.dealershipscience.com/api/leads/forward",
+      dsCaptureEndpoint: "",
+      dealerForwardEndpoint: "",
       apiKey: "REPLACE_WITH_YOUR_SERVER_KEY_OR_REMOVE_FROM_FRONTEND",
 
       // Redirect after success
-      redirectUrl: "https://www.dealershipscience.com/thank-you",
+      redirectUrl: "thank-you.html",
+      inventoryUrl: "https://www.timshortford.com/inventory/used,new?paymenttype=cash&fueltypes=electric%20fuel%20system&intransit=false&instock=false&inproduction=false",
 
       // Optional behaviors
       includeCalculationData: true,
-      enableDealerForwarding: true
+      enableDealerForwarding: false
     };
 
     function applyBranding() {
@@ -591,14 +592,35 @@
         }
 
         showStatus("Success. Redirecting to your Dealership Science landing page...", "info");
+        const params = new URLSearchParams({
+          first_name: payload.customer.first_name || "",
+          dealer: payload.dealer.dealer_name || "",
+          weekly: (payload.calculator && payload.calculator.weekly_savings) || "",
+          monthly: (payload.calculator && payload.calculator.monthly_savings) || "",
+          yearly: (payload.calculator && payload.calculator.yearly_savings) || "",
+          cta: payload.lead.subject || "",
+          notes: payload.lead.notes || "",
+          inventory_url: config.inventoryUrl || ""
+        });
         setTimeout(() => {
-          window.location.href = config.redirectUrl || "https://www.dealershipscience.com/thank-you";
+          window.location.href = (config.redirectUrl || "thank-you.html") + "?" + params.toString();
         }, 600);
       } catch (error) {
         console.error(error);
-        showStatus("Lead capture or forwarding failed. Check your endpoint configuration and server logs.", "error");
-        submitButton.disabled = false;
-        submitButton.textContent = "Submit";
+        showStatus("Almost there... taking you to your results.", "info");
+        const params = new URLSearchParams({
+          first_name: payload.customer.first_name || "",
+          dealer: payload.dealer.dealer_name || "",
+          weekly: (payload.calculator && payload.calculator.weekly_savings) || "",
+          monthly: (payload.calculator && payload.calculator.monthly_savings) || "",
+          yearly: (payload.calculator && payload.calculator.yearly_savings) || "",
+          cta: payload.lead.subject || "",
+          notes: payload.lead.notes || "",
+          inventory_url: config.inventoryUrl || ""
+        });
+        setTimeout(() => {
+          window.location.href = (config.redirectUrl || "thank-you.html") + "?" + params.toString();
+        }, 600);
       }
     }
 
