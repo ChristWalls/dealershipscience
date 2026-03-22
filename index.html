@@ -1,116 +1,532 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>EV Savings Calculator</title>
-<style>
-body {font-family: Arial; margin:0; padding:0; background:#f5f5f5;}
-.container {max-width:800px; margin:20px auto; background:white; padding:20px; border-radius:10px;}
-h1 {text-align:center;}
-input, button {width:100%; padding:10px; margin:5px 0;}
-.result {font-size:20px; font-weight:bold; margin-top:10px;}
-.footer {font-size:12px; margin-top:20px; color:#555;}
-.banner {padding:10px; text-align:center; font-weight:bold;}
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dealership Science EV Fuel Savings Tool</title>
+  <style>
+    :root{
+      --navy:#0e2b56;
+      --navy-dark:#0a1f3f;
+      --blue:#173f7a;
+      --bg:#eef4fb;
+      --card:#ffffff;
+      --text:#142033;
+      --muted:#5a6b84;
+      --line:#dbe5f1;
+      --accent:#117a37;
+      --accent-soft:#e9f7ee;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family:Arial, Helvetica, sans-serif;
+      color:var(--text);
+      background:linear-gradient(180deg,#f5f8fc 0%, #edf3fa 100%);
+    }
+    .hero{
+      background:linear-gradient(135deg,var(--navy),var(--blue));
+      color:#fff;
+      padding:28px 18px 34px;
+      box-shadow:0 10px 30px rgba(14,43,86,.15);
+    }
+    .hero-inner, .wrap{
+      max-width:1120px;
+      margin:0 auto;
+    }
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:14px;
+      margin-bottom:16px;
+    }
+    .logo{
+      width:54px;
+      height:54px;
+      border-radius:14px;
+      background:#fff;
+      color:var(--navy);
+      display:grid;
+      place-items:center;
+      font-weight:800;
+      font-size:20px;
+      box-shadow:0 8px 20px rgba(0,0,0,.16);
+    }
+    .brand small{
+      display:block;
+      font-size:12px;
+      opacity:.85;
+      letter-spacing:.08em;
+      text-transform:uppercase;
+      margin-bottom:4px;
+    }
+    .brand strong{
+      font-size:24px;
+      letter-spacing:.01em;
+    }
+    h1{
+      margin:6px 0 8px;
+      font-size:36px;
+      line-height:1.1;
+    }
+    .hero p{
+      margin:0;
+      max-width:900px;
+      font-size:16px;
+      line-height:1.55;
+      opacity:.96;
+    }
+    .wrap{
+      padding:24px 16px 38px;
+    }
+    .grid{
+      display:grid;
+      grid-template-columns:1.1fr .9fr;
+      gap:20px;
+      align-items:start;
+    }
+    .card{
+      background:var(--card);
+      border:1px solid var(--line);
+      border-radius:18px;
+      padding:22px;
+      box-shadow:0 8px 26px rgba(15,23,42,.06);
+    }
+    .card h2{
+      margin:0 0 6px;
+      font-size:28px;
+      color:var(--navy);
+    }
+    .sub{
+      color:var(--muted);
+      font-size:15px;
+      line-height:1.55;
+      margin:0 0 18px;
+    }
+    .toggle{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      margin-bottom:18px;
+    }
+    .toggle button{
+      border:1px solid var(--line);
+      background:#edf3fa;
+      color:var(--text);
+      border-radius:12px;
+      padding:12px 14px;
+      font-size:15px;
+      font-weight:700;
+      cursor:pointer;
+    }
+    .toggle button.active{
+      background:var(--navy);
+      color:#fff;
+      border-color:var(--navy);
+    }
+    .fields{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:14px;
+    }
+    .field{
+      margin-bottom:4px;
+    }
+    .field.full{
+      grid-column:1 / -1;
+    }
+    label{
+      display:block;
+      font-weight:700;
+      font-size:14px;
+      margin-bottom:6px;
+    }
+    .hint{
+      color:var(--muted);
+      font-size:12px;
+      margin-bottom:8px;
+    }
+    input, select, button.submit{
+      width:100%;
+      border:1px solid var(--line);
+      border-radius:12px;
+      padding:13px 14px;
+      font-size:16px;
+      background:#fff;
+    }
+    input:focus, select:focus{
+      outline:none;
+      border-color:var(--blue);
+      box-shadow:0 0 0 3px rgba(23,63,122,.12);
+    }
+    .results-top{
+      display:grid;
+      grid-template-columns:repeat(4,1fr);
+      gap:12px;
+      margin:20px 0 16px;
+    }
+    .mini{
+      border:1px solid var(--line);
+      border-radius:14px;
+      background:#f9fbfe;
+      padding:14px;
+    }
+    .mini .k{
+      color:var(--muted);
+      font-size:12px;
+      text-transform:uppercase;
+      letter-spacing:.06em;
+      margin-bottom:8px;
+      font-weight:700;
+    }
+    .mini .v{
+      font-size:24px;
+      font-weight:800;
+      color:var(--navy);
+    }
+    .savings{
+      border:1px solid #cfe8d6;
+      background:var(--accent-soft);
+      border-radius:16px;
+      padding:18px;
+      margin-bottom:18px;
+    }
+    .savings h3{
+      margin:0 0 12px;
+      font-size:22px;
+      color:var(--accent);
+    }
+    .money-grid{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:12px;
+    }
+    .money{
+      background:#fff;
+      border:1px solid #d7ebdd;
+      border-radius:14px;
+      padding:14px;
+      text-align:center;
+    }
+    .money .label{
+      color:var(--muted);
+      font-size:12px;
+      text-transform:uppercase;
+      letter-spacing:.06em;
+      margin-bottom:8px;
+      font-weight:700;
+    }
+    .money .value{
+      color:var(--accent);
+      font-size:28px;
+      font-weight:800;
+    }
+    .money .subv{
+      color:var(--muted);
+      font-size:12px;
+      margin-top:4px;
+    }
+    .right-card h3{
+      margin:0 0 8px;
+      color:var(--navy);
+      font-size:24px;
+    }
+    .cost-boxes{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:12px;
+      margin-top:18px;
+    }
+    .cost{
+      border:1px solid var(--line);
+      border-radius:16px;
+      padding:16px;
+      background:#fbfdff;
+    }
+    .cost h4{
+      margin:0 0 10px;
+      font-size:18px;
+      color:var(--navy);
+    }
+    .cost .big{
+      font-size:34px;
+      font-weight:800;
+      color:var(--navy);
+      line-height:1;
+    }
+    .cost .per{
+      color:var(--muted);
+      margin-top:4px;
+      font-size:13px;
+    }
+    .cost .line{
+      display:flex;
+      justify-content:space-between;
+      margin-top:12px;
+      padding-top:12px;
+      border-top:1px solid var(--line);
+      color:var(--muted);
+      font-size:14px;
+    }
+    .how{
+      margin-top:18px;
+      border-top:1px solid var(--line);
+      padding-top:18px;
+    }
+    .how h4{
+      margin:0 0 10px;
+      font-size:20px;
+      color:var(--navy);
+    }
+    .how p{
+      margin:0 0 10px;
+      color:var(--muted);
+      line-height:1.55;
+      font-size:14px;
+    }
+    .submit{
+      background:var(--navy);
+      color:#fff;
+      border:none;
+      font-weight:700;
+      cursor:pointer;
+      margin-top:6px;
+    }
+    .hidden{display:none}
+    @media (max-width: 940px){
+      .grid{grid-template-columns:1fr}
+      .fields{grid-template-columns:1fr}
+      .results-top{grid-template-columns:1fr 1fr}
+      .money-grid{grid-template-columns:1fr}
+      .cost-boxes{grid-template-columns:1fr}
+      h1{font-size:30px}
+    }
+  </style>
 </head>
 <body>
+  <section class="hero">
+    <div class="hero-inner">
+      <div class="brand">
+        <div class="logo">DS</div>
+        <div>
+          <small>Measure. Optimize. Sell More.</small>
+          <strong>Dealership Science</strong>
+        </div>
+      </div>
+      <h1>EV Fuel Savings Tool</h1>
+      <p>Estimate how much you could save by switching to an electric vehicle</p>
+      <p style="margin-top:8px">Enter either your weekly gas spending or your weekly miles driven. Kentucky electricity is preset to $0.09 per kWh, and you can adjust the current fuel price any time.</p>
+    </div>
+  </section>
 
-<div class="banner" id="banner"></div>
+  <main class="wrap">
+    <div class="grid">
+      <section class="card">
+        <div class="toggle">
+          <button id="modeSpend" class="active" type="button">Start with weekly gas spend</button>
+          <button id="modeMiles" type="button">Start with weekly miles driven</button>
+        </div>
 
-<div class="container">
-<h1 id="headline">EV Savings Calculator</h1>
+        <div class="fields">
+          <div class="field full" id="gasSpendWrap">
+            <label for="gasSpend">Weekly gas spend</label>
+            <div class="hint">Your current weekly fuel spending</div>
+            <input type="number" id="gasSpend" value="92.12" step="0.01" min="0" />
+          </div>
 
-<label>Weekly Gas Spend ($)</label>
-<input type="number" id="gasSpend" value="75">
+          <div class="field full hidden" id="milesWrap">
+            <label for="weeklyMiles">Miles driven per week</label>
+            <div class="hint">Your estimated weekly driving distance</div>
+            <input type="number" id="weeklyMiles" value="700" step="1" min="0" />
+          </div>
 
-<label>Gas Price ($/gal)</label>
-<input type="number" id="gasPrice" value="3.29">
+          <div class="field">
+            <label for="gasPrice">Current gas price</label>
+            <div class="hint">Adjust to local market rate</div>
+            <input type="number" id="gasPrice" value="3.29" step="0.01" min="0" />
+          </div>
 
-<label>Miles Per Gallon</label>
-<input type="number" id="mpg" value="25">
+          <div class="field">
+            <label for="mpg">Current vehicle MPG</label>
+            <div class="hint">Used to estimate gas cost and miles</div>
+            <input type="number" id="mpg" value="25" step="0.1" min="1" />
+          </div>
 
-<label>Electric Rate ($/kWh)</label>
-<input type="number" id="electricRate" value="0.09">
+          <div class="field">
+            <label for="electricRate">Electric rate</label>
+            <div class="hint">What you pay for electricity</div>
+            <input type="number" id="electricRate" value="0.09" step="0.01" min="0" />
+          </div>
 
-<label>EV Efficiency (kWh per mile)</label>
-<input type="number" id="efficiency" value="0.30">
+          <div class="field">
+            <label for="efficiency">EV efficiency</label>
+            <div class="hint">How much electricity the EV uses per mile. Lower = better.</div>
+            <input type="number" id="efficiency" value="0.30" step="0.01" min="0.01" />
+          </div>
+        </div>
 
-<button onclick="calculate()">Calculate Savings</button>
+        <div class="results-top">
+          <div class="mini">
+            <div class="k">Estimated weekly driving</div>
+            <div class="v" id="estMiles">700 miles</div>
+          </div>
+          <div class="mini">
+            <div class="k">Gas used</div>
+            <div class="v" id="gasUsed">28.0 gal / week</div>
+          </div>
+          <div class="mini">
+            <div class="k">Power used</div>
+            <div class="v" id="powerUsed">210.0 kWh / week</div>
+          </div>
+          <div class="mini">
+            <div class="k">Estimated savings</div>
+            <div class="v" id="quickSavings">$73.22</div>
+          </div>
+        </div>
 
-<div class="result" id="result"></div>
+        <div class="savings">
+          <h3>Estimated Savings</h3>
+          <div class="money-grid">
+            <div class="money">
+              <div class="label">Weekly savings</div>
+              <div class="value" id="weeklySavings">$73.22</div>
+            </div>
+            <div class="money">
+              <div class="label">Monthly savings</div>
+              <div class="value" id="monthlySavings">$317.04</div>
+            </div>
+            <div class="money">
+              <div class="label">Yearly savings</div>
+              <div class="value" id="yearlySavings">$3,807.44</div>
+            </div>
+          </div>
+        </div>
+      </section>
 
-</div>
+      <aside class="card right-card">
+        <h3>Get your personalized EV savings plan</h3>
+        <p class="sub">Choose what you want help with, then send your information for follow-up.</p>
 
-<div class="container footer" id="footer"></div>
+        <div class="field">
+          <label for="fullName">Full name</label>
+          <input id="fullName" type="text" />
+        </div>
+        <div class="field">
+          <label for="phone">Phone number</label>
+          <input id="phone" type="tel" />
+        </div>
+        <div class="field">
+          <label for="email">Email address</label>
+          <input id="email" type="email" />
+        </div>
+        <div class="field">
+          <label for="helpType">Choose what you want help with</label>
+          <select id="helpType">
+            <option>Show Me Available EVs</option>
+            <option>Compare Gas vs Electric</option>
+            <option>Schedule an EV Test Drive</option>
+            <option>Value My Trade for an EV</option>
+          </select>
+        </div>
+        <button class="submit" type="button">Send My Request</button>
 
-<script>
-// Dealer Config (can be replaced dynamically)
-const config = {
-  dealer_name: "Your Dealership",
-  phone: "000-000-0000",
-  website: "#",
-  banner_text: "⚡ See How Much You Could Save Switching to Electric",
-  primary_color: "#003366"
-};
+        <div class="cost-boxes">
+          <div class="cost">
+            <h4>Gas vehicle cost</h4>
+            <div class="big" id="gasWeekly">$92.12</div>
+            <div class="per">per week</div>
+            <div class="line"><span>Monthly</span><strong id="gasMonthly">$398.88</strong></div>
+            <div class="line"><span>Yearly</span><strong id="gasYearly">$4,790.24</strong></div>
+          </div>
+          <div class="cost">
+            <h4>Electric vehicle cost</h4>
+            <div class="big" id="evWeekly">$18.90</div>
+            <div class="per">per week</div>
+            <div class="line"><span>Monthly</span><strong id="evMonthly">$81.84</strong></div>
+            <div class="line"><span>Yearly</span><strong id="evYearly">$982.80</strong></div>
+          </div>
+        </div>
 
-document.getElementById("banner").innerText = config.banner_text;
-document.getElementById("banner").style.background = config.primary_color;
-document.getElementById("banner").style.color = "#fff";
+        <div class="how">
+          <h4>How this works</h4>
+          <p>Gas cost = miles driven ÷ MPG × gas price</p>
+          <p>EV cost = miles driven × kWh per mile × electricity rate</p>
+          <p>Electricity is preset to $0.09/kWh based on your Kentucky utilities assumption.</p>
+          <p>This estimate focuses on fuel and charging cost only. It does not include maintenance, insurance, charger installation, taxes, or financing.</p>
+        </div>
+      </aside>
+    </div>
+  </main>
 
-document.getElementById("headline").innerText = config.dealer_name + " EV Savings Calculator";
+  <script>
+    const modeSpend = document.getElementById('modeSpend');
+    const modeMiles = document.getElementById('modeMiles');
+    const gasSpendWrap = document.getElementById('gasSpendWrap');
+    const milesWrap = document.getElementById('milesWrap');
 
-function calculate(){
-  let gasSpend = parseFloat(document.getElementById("gasSpend").value);
-  let gasPrice = parseFloat(document.getElementById("gasPrice").value);
-  let mpg = parseFloat(document.getElementById("mpg").value);
-  let electricRate = parseFloat(document.getElementById("electricRate").value);
-  let efficiency = parseFloat(document.getElementById("efficiency").value);
+    function money(n){
+      return new Intl.NumberFormat('en-US',{style:'currency',currency:'USD'}).format(n);
+    }
 
-  let miles = (gasSpend / gasPrice) * mpg;
-  let evCost = miles * efficiency * electricRate;
-  let savings = gasSpend - evCost;
+    function setMode(mode){
+      window.calcMode = mode;
+      if(mode === 'miles'){
+        modeSpend.classList.remove('active');
+        modeMiles.classList.add('active');
+        gasSpendWrap.classList.add('hidden');
+        milesWrap.classList.remove('hidden');
+      } else {
+        modeSpend.classList.add('active');
+        modeMiles.classList.remove('active');
+        gasSpendWrap.classList.remove('hidden');
+        milesWrap.classList.add('hidden');
+      }
+      calculate();
+    }
 
-  document.getElementById("result").innerHTML =
-    "Weekly Savings: $" + savings.toFixed(2) +
-    "<br>Monthly: $" + (savings*4.33).toFixed(2) +
-    "<br>Yearly: $" + (savings*52).toFixed(2);
-}
+    function calculate(){
+      const mode = window.calcMode || 'spend';
+      const gasSpend = parseFloat(document.getElementById('gasSpend').value) || 0;
+      const weeklyMiles = parseFloat(document.getElementById('weeklyMiles').value) || 0;
+      const gasPrice = parseFloat(document.getElementById('gasPrice').value) || 0;
+      const mpg = parseFloat(document.getElementById('mpg').value) || 0;
+      const electricRate = parseFloat(document.getElementById('electricRate').value) || 0;
+      const efficiency = parseFloat(document.getElementById('efficiency').value) || 0;
 
-// Footer with disclaimers
-document.getElementById("footer").innerHTML = `
-<strong>${config.dealer_name}</strong><br>
-Phone: ${config.phone}<br>
-Website: ${config.website}<br><br>
+      if(!gasPrice || !mpg || !electricRate || !efficiency) return;
 
-<strong>Estimated Savings Disclaimer:</strong>
-Savings are estimates based on user input and may vary.<br><br>
+      const miles = mode === 'miles' ? weeklyMiles : ((gasSpend / gasPrice) * mpg);
+      const gasGallons = miles / mpg;
+      const gasWeeklyCost = gasGallons * gasPrice;
+      const evWeeklyCost = miles * efficiency * electricRate;
+      const weeklySavings = gasWeeklyCost - evWeeklyCost;
 
-<strong>Electric Vehicle Efficiency:</strong>
-Typical range 0.25–0.35 kWh per mile.<br><br>
+      document.getElementById('estMiles').textContent = `${Math.round(miles).toLocaleString()} miles`;
+      document.getElementById('gasUsed').textContent = `${gasGallons.toFixed(1)} gal / week`;
+      document.getElementById('powerUsed').textContent = `${(miles * efficiency).toFixed(1)} kWh / week`;
+      document.getElementById('quickSavings').textContent = money(weeklySavings);
 
-<strong>Fuel Price Assumptions:</strong>
-Gas prices may vary.<br><br>
+      document.getElementById('weeklySavings').textContent = money(weeklySavings);
+      document.getElementById('monthlySavings').textContent = money(weeklySavings * 4.33);
+      document.getElementById('yearlySavings').textContent = money(weeklySavings * 52);
 
-<strong>Electricity Cost Assumptions:</strong>
-Rates vary by provider and usage.<br><br>
+      document.getElementById('gasWeekly').textContent = money(gasWeeklyCost);
+      document.getElementById('gasMonthly').textContent = money(gasWeeklyCost * 4.33);
+      document.getElementById('gasYearly').textContent = money(gasWeeklyCost * 52);
 
-<strong>No Offer or Guarantee:</strong>
-Not an offer to sell or guarantee pricing.<br><br>
+      document.getElementById('evWeekly').textContent = money(evWeeklyCost);
+      document.getElementById('evMonthly').textContent = money(evWeeklyCost * 4.33);
+      document.getElementById('evYearly').textContent = money(evWeeklyCost * 52);
+    }
 
-<strong>Incentives & Tax Credits:</strong>
-Subject to eligibility and change.<br><br>
+    ['gasSpend','weeklyMiles','gasPrice','mpg','electricRate','efficiency'].forEach(id => {
+      document.getElementById(id).addEventListener('input', calculate);
+    });
 
-<strong>Consent to Contact:</strong>
-By submitting, you agree to be contacted.<br><br>
+    modeSpend.addEventListener('click', () => setMode('spend'));
+    modeMiles.addEventListener('click', () => setMode('miles'));
 
-<strong>Data Usage:</strong>
-Information may be shared with dealership partners.<br><br>
-
-<strong>Limitation of Liability:</strong>
-Not responsible for decisions based on estimates.
-`;
-</script>
-
+    setMode('miles');
+  </script>
 </body>
 </html>
