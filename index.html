@@ -3,555 +3,614 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Dealership Science EV Fuel Savings Tool</title>
+  <title>Dealership Science EV Savings Calculator</title>
   <style>
     :root{
-      --navy:#0e2b56;
-      --navy-dark:#0a1f3f;
-      --blue:#173f7a;
-      --bg:#eef4fb;
+      --primary:#003366;
+      --primary-dark:#00264d;
+      --bg:#f4f7fb;
       --card:#ffffff;
-      --text:#142033;
-      --muted:#5a6b84;
-      --line:#dbe5f1;
-      --accent:#117a37;
-      --accent-soft:#e9f7ee;
+      --text:#18212b;
+      --muted:#5e6b78;
+      --border:#d8e0ea;
+      --success:#117a37;
+      --danger:#a32626;
     }
     *{box-sizing:border-box}
     body{
       margin:0;
       font-family:Arial, Helvetica, sans-serif;
+      background:var(--bg);
       color:var(--text);
-      background:linear-gradient(180deg,#f5f8fc 0%, #edf3fa 100%);
+      line-height:1.45;
     }
     .hero{
-      background:linear-gradient(135deg,var(--navy),var(--blue));
+      background:linear-gradient(135deg,var(--primary),var(--primary-dark));
       color:#fff;
-      padding:28px 18px 34px;
-      box-shadow:0 10px 30px rgba(14,43,86,.15);
+      padding:24px 16px;
+      text-align:center;
     }
-    .hero-inner, .wrap{
-      max-width:1120px;
-      margin:0 auto;
-    }
-    .brand{
-      display:flex;
-      align-items:center;
-      gap:14px;
-      margin-bottom:16px;
-    }
-    .logo{
-      width:54px;
-      height:54px;
-      border-radius:14px;
-      background:#fff;
-      color:var(--navy);
-      display:grid;
-      place-items:center;
-      font-weight:800;
-      font-size:20px;
-      box-shadow:0 8px 20px rgba(0,0,0,.16);
-    }
-    .brand small{
-      display:block;
-      font-size:12px;
-      opacity:.85;
+    .hero .eyebrow{
+      font-size:13px;
       letter-spacing:.08em;
       text-transform:uppercase;
-      margin-bottom:4px;
+      opacity:.9;
+      margin-bottom:8px;
     }
-    .brand strong{
-      font-size:24px;
-      letter-spacing:.01em;
-    }
-    h1{
-      margin:6px 0 8px;
-      font-size:36px;
-      line-height:1.1;
+    .hero h1{
+      margin:0 auto 8px;
+      max-width:960px;
+      font-size:32px;
     }
     .hero p{
-      margin:0;
-      max-width:900px;
+      margin:0 auto;
+      max-width:760px;
       font-size:16px;
-      line-height:1.55;
-      opacity:.96;
+      opacity:.95;
     }
     .wrap{
-      padding:24px 16px 38px;
+      max-width:1120px;
+      margin:24px auto;
+      padding:0 16px 36px;
     }
     .grid{
       display:grid;
       grid-template-columns:1.1fr .9fr;
       gap:20px;
-      align-items:start;
     }
     .card{
       background:var(--card);
-      border:1px solid var(--line);
+      border:1px solid var(--border);
       border-radius:18px;
+      box-shadow:0 8px 24px rgba(15,23,42,.06);
       padding:22px;
-      box-shadow:0 8px 26px rgba(15,23,42,.06);
     }
-    .card h2{
-      margin:0 0 6px;
-      font-size:28px;
-      color:var(--navy);
-    }
-    .sub{
-      color:var(--muted);
-      font-size:15px;
-      line-height:1.55;
-      margin:0 0 18px;
-    }
-    .toggle{
-      display:flex;
-      gap:10px;
-      flex-wrap:wrap;
-      margin-bottom:18px;
-    }
-    .toggle button{
-      border:1px solid var(--line);
-      background:#edf3fa;
-      color:var(--text);
+    .card h2{margin:0 0 14px;font-size:22px}
+    .sub{color:var(--muted);margin:-4px 0 18px;font-size:14px}
+    .field{margin-bottom:14px}
+    label{display:block;font-weight:700;margin-bottom:6px;font-size:14px}
+    .help{color:var(--muted);font-size:12px;margin-top:4px}
+    input, select, button, textarea{
+      width:100%;
+      border:1px solid var(--border);
       border-radius:12px;
       padding:12px 14px;
-      font-size:15px;
-      font-weight:700;
-      cursor:pointer;
-    }
-    .toggle button.active{
-      background:var(--navy);
-      color:#fff;
-      border-color:var(--navy);
-    }
-    .fields{
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:14px;
-    }
-    .field{
-      margin-bottom:4px;
-    }
-    .field.full{
-      grid-column:1 / -1;
-    }
-    label{
-      display:block;
-      font-weight:700;
-      font-size:14px;
-      margin-bottom:6px;
-    }
-    .hint{
-      color:var(--muted);
-      font-size:12px;
-      margin-bottom:8px;
-    }
-    input, select, input:focus, select:focus{
-      outline:none;
-      border-color:var(--blue);
-      box-shadow:0 0 0 3px rgba(23,63,122,.12);
-    }
-    .results-top{
-      display:grid;
-      grid-template-columns:repeat(4,1fr);
-      gap:12px;
-      margin:20px 0 16px;
-    }
-    .mini{
-      border:1px solid var(--line);
-      border-radius:14px;
-      background:#f9fbfe;
-      padding:14px;
-    }
-    .mini .k{
-      color:var(--muted);
-      font-size:12px;
-      text-transform:uppercase;
-      letter-spacing:.06em;
-      margin-bottom:8px;
-      font-weight:700;
-    }
-    .mini .v{
-      font-size:24px;
-      font-weight:800;
-      color:var(--navy);
-    }
-    .savings{
-      border:1px solid #cfe8d6;
-      background:var(--accent-soft);
-      border-radius:16px;
-      padding:18px;
-      margin-bottom:18px;
-    }
-    .savings h3{
-      margin:0 0 12px;
-      font-size:22px;
-      color:var(--accent);
-    }
-    .money-grid{
-      display:grid;
-      grid-template-columns:repeat(3,1fr);
-      gap:12px;
-    }
-    .money{
+      font-size:16px;
+      font-family:inherit;
       background:#fff;
-      border:1px solid #d7ebdd;
-      border-radius:14px;
-      padding:14px;
-      text-align:center;
     }
-    .money .label{
-      color:var(--muted);
-      font-size:12px;
-      text-transform:uppercase;
-      letter-spacing:.06em;
-      margin-bottom:8px;
-      font-weight:700;
+    input:focus, select:focus, textarea:focus{
+      outline:none;
+      border-color:var(--primary);
+      box-shadow:0 0 0 3px rgba(0,51,102,.12);
     }
-    .money .value{
-      color:var(--accent);
-      font-size:28px;
-      font-weight:800;
-    }
-    .money .subv{
-      color:var(--muted);
-      font-size:12px;
-      margin-top:4px;
-    }
-    .right-card h3{
-      margin:0 0 8px;
-      color:var(--navy);
-      font-size:24px;
-    }
-    .cost-boxes{
+    textarea{resize:vertical;min-height:90px}
+    .row{
       display:grid;
       grid-template-columns:1fr 1fr;
       gap:12px;
-      margin-top:18px;
     }
-    .cost{
-      border:1px solid var(--line);
+    .actions{
+      display:flex;
+      gap:12px;
+      flex-wrap:wrap;
+      margin-top:16px;
+    }
+    button{
+      cursor:pointer;
+      border:none;
+      background:var(--primary);
+      color:#fff;
+      font-weight:700;
+      transition:.18s ease;
+    }
+    button:hover{filter:brightness(1.03)}
+    .secondary{
+      background:#e8eef5;
+      color:var(--text);
+      border:1px solid var(--border);
+    }
+    .results{
+      display:grid;
+      grid-template-columns:repeat(3, 1fr);
+      gap:12px;
+      margin:16px 0 8px;
+    }
+    .metric{
+      border:1px solid var(--border);
       border-radius:16px;
       padding:16px;
       background:#fbfdff;
     }
-    .cost h4{
-      margin:0 0 10px;
-      font-size:18px;
-      color:var(--navy);
-    }
-    .cost .big{
-      font-size:34px;
-      font-weight:800;
-      color:var(--navy);
-      line-height:1;
-    }
-    .cost .per{
+    .metric .label{
+      font-size:12px;
       color:var(--muted);
-      margin-top:4px;
+      text-transform:uppercase;
+      letter-spacing:.06em;
+      margin-bottom:8px;
+    }
+    .metric .value{
+      font-size:28px;
+      font-weight:800;
+      color:var(--success);
+    }
+    .callout{
+      margin-top:14px;
+      border-left:4px solid var(--primary);
+      background:#f8fbff;
+      padding:12px 14px;
+      border-radius:12px;
+      font-size:14px;
+    }
+    .smallprint{
+      font-size:12px;
+      color:var(--muted);
+      margin-top:12px;
+    }
+    .consent{
+      font-size:12px;
+      color:var(--muted);
+      margin:10px 0 0;
+      display:block;
+    }
+    .consent input{
+      width:auto;
+      margin-right:8px;
+      transform:translateY(1px);
+    }
+    .disclaimers{margin-top:22px;font-size:12px;color:var(--muted)}
+    .disclaimers p{margin:0 0 10px}
+    .dealer-footer{
+      margin-top:28px;
+      padding:18px;
+      text-align:center;
+      border-top:1px solid var(--border);
+      color:var(--muted);
       font-size:13px;
     }
-    .cost .line{
-      display:flex;
-      justify-content:space-between;
-      margin-top:12px;
-      padding-top:12px;
-      border-top:1px solid var(--line);
-      color:var(--muted);
-      font-size:14px;
+    .dealer-footer img{
+      max-height:54px;
+      max-width:240px;
+      margin:0 auto 10px;
+      display:block;
     }
-    .how{
-      margin-top:18px;
-      border-top:1px solid var(--line);
-      padding-top:18px;
-    }
-    .how h4{
-      margin:0 0 10px;
-      font-size:20px;
-      color:var(--navy);
-    }
-    .how p{
-      margin:0 0 10px;
-      color:var(--muted);
-      line-height:1.55;
-      font-size:14px;
-    }
-    .submit{
-      background:var(--navy);
-      color:#fff;
-      border:none;
+    .badge{
+      display:inline-block;
+      font-size:11px;
+      letter-spacing:.06em;
+      text-transform:uppercase;
+      padding:6px 10px;
+      border-radius:999px;
+      background:#ecf3fa;
+      color:var(--primary);
       font-weight:700;
-      cursor:pointer;
-      margin-top:6px;
+      margin-bottom:10px;
     }
-    .hidden{display:none}
-    @media (max-width: 940px){
+    .status{
+      margin-top:12px;
+      padding:12px 14px;
+      border-radius:12px;
+      font-size:14px;
+      display:none;
+    }
+    .status.show{display:block}
+    .status.info{background:#eef6ff;color:#16406b;border:1px solid #cfe2f6}
+    .status.error{background:#fff0f0;color:var(--danger);border:1px solid #f3caca}
+    .hidden{display:none !important}
+    @media (max-width: 860px){
       .grid{grid-template-columns:1fr}
-      .fields{grid-template-columns:1fr}
-      .results-top{grid-template-columns:1fr 1fr}
-      .money-grid{grid-template-columns:1fr}
-      .cost-boxes{grid-template-columns:1fr}
-      h1{font-size:30px}
+      .results{grid-template-columns:1fr}
+      .row{grid-template-columns:1fr}
+      .hero h1{font-size:28px}
     }
   </style>
 </head>
 <body>
   <section class="hero">
-    <div class="hero-inner">
-      <div class="brand">
-        <div class="logo">DS</div>
-        <div>
-          <small>Measure. Optimize. Sell More.</small>
-          <strong>Dealership Science</strong>
-        </div>
-      </div>
-      <h1>EV Fuel Savings Tool</h1>
-      <p>Estimate how much you could save by switching to an electric vehicle</p>
-      <p style="margin-top:8px">Enter either your weekly gas spending or your weekly miles driven. Kentucky electricity is preset to $0.09 per kWh, and you can adjust the current fuel price any time.</p>
-    </div>
+    <div class="eyebrow" id="heroEyebrow">EV savings made simple</div>
+    <h1 id="heroHeadline">See How Much You Could Save by Driving Electric</h1>
+    <p id="heroSubheadline">Enter a few details below to estimate your weekly, monthly, and yearly fuel savings.</p>
   </section>
 
   <main class="wrap">
     <div class="grid">
       <section class="card">
-        <div class="toggle">
-          <button id="modeSpend" class="active" type="button">Start with weekly gas spend</button>
-          <button id="modeMiles" type="button">Start with weekly miles driven</button>
-        </div>
+        <div class="badge" id="dealerMessage">Customized for your dealership</div>
+        <h2>Calculate Your Estimated EV Savings</h2>
+        <p class="sub">Use current fuel and electricity estimates to compare your present gas spend to a typical EV.</p>
 
-        <div class="fields">
-          <div class="field full" id="gasSpendWrap">
-            <label for="gasSpend">Weekly gas spend</label>
-            <div class="hint">Your current weekly fuel spending</div>
-            <input type="number" id="gasSpend" value="92.12" step="0.01" min="0" />
-          </div>
-
-          <div class="field full hidden" id="milesWrap">
-            <label for="weeklyMiles">Miles driven per week</label>
-            <div class="hint">Your estimated weekly driving distance</div>
-            <input type="number" id="weeklyMiles" value="700" step="1" min="0" />
-          </div>
-
+        <div class="row">
           <div class="field">
-            <label for="gasPrice">Current gas price</label>
-            <div class="hint">Adjust to local market rate</div>
-            <input type="number" id="gasPrice" value="3.29" step="0.01" min="0" />
+            <label for="gasSpend">Weekly Gas Spend ($)</label>
+            <input type="number" id="gasSpend" min="0" step="0.01" value="75" />
           </div>
-
           <div class="field">
-            <label for="mpg">Current vehicle MPG</label>
-            <div class="hint">Used to estimate gas cost and miles</div>
-            <input type="number" id="mpg" value="25" step="0.1" min="1" />
-          </div>
-
-          <div class="field">
-            <label for="electricRate">Electric rate</label>
-            <div class="hint">What you pay for electricity</div>
-            <input type="number" id="electricRate" value="0.09" step="0.01" min="0" />
-          </div>
-
-          <div class="field">
-            <label for="efficiency">EV efficiency</label>
-            <div class="hint">How much electricity the EV uses per mile. Lower = better.</div>
-            <input type="number" id="efficiency" value="0.30" step="0.01" min="0.01" />
+            <label for="gasPrice">Gas Price ($ per gallon)</label>
+            <input type="number" id="gasPrice" min="0" step="0.01" value="3.29" />
           </div>
         </div>
 
-        <div class="results-top">
-          <div class="mini">
-            <div class="k">Estimated weekly driving</div>
-            <div class="v" id="estMiles">700 miles</div>
+        <div class="row">
+          <div class="field">
+            <label for="mpg">Miles Per Gallon (MPG)</label>
+            <input type="number" id="mpg" min="1" step="0.1" value="25" />
           </div>
-          <div class="mini">
-            <div class="k">Gas used</div>
-            <div class="v" id="gasUsed">28.0 gal / week</div>
-          </div>
-          <div class="mini">
-            <div class="k">Power used</div>
-            <div class="v" id="powerUsed">210.0 kWh / week</div>
-          </div>
-          <div class="mini">
-            <div class="k">Estimated savings</div>
-            <div class="v" id="quickSavings">$73.22</div>
+          <div class="field">
+            <label for="electricRate">Electric Rate ($ per kWh)</label>
+            <input type="number" id="electricRate" min="0" step="0.01" value="0.09" />
           </div>
         </div>
 
-        <div class="savings">
-          <h3>Estimated Savings</h3>
-          <div class="money-grid">
-            <div class="money">
-              <div class="label">Weekly savings</div>
-              <div class="value" id="weeklySavings">$73.22</div>
-            </div>
-            <div class="money">
-              <div class="label">Monthly savings</div>
-              <div class="value" id="monthlySavings">$317.04</div>
-            </div>
-            <div class="money">
-              <div class="label">Yearly savings</div>
-              <div class="value" id="yearlySavings">$3,807.44</div>
-            </div>
+        <div class="field">
+          <label for="efficiency">EV Efficiency (kWh per mile)</label>
+          <input type="number" id="efficiency" min="0.01" step="0.01" value="0.30" />
+          <div class="help">Most electric vehicles use about 0.25–0.35 kWh per mile. Lower number = more efficient.</div>
+        </div>
+
+        <div class="actions">
+          <button type="button" onclick="calculateSavings()">Calculate Savings</button>
+          <button type="button" class="secondary" onclick="resetCalculator()">Reset</button>
+        </div>
+
+        <div class="results">
+          <div class="metric">
+            <div class="label">Weekly Savings</div>
+            <div class="value" id="weeklySavings">$0.00</div>
           </div>
+          <div class="metric">
+            <div class="label">Monthly Savings</div>
+            <div class="value" id="monthlySavings">$0.00</div>
+          </div>
+          <div class="metric">
+            <div class="label">Yearly Savings</div>
+            <div class="value" id="yearlySavings">$0.00</div>
+          </div>
+        </div>
+
+        <div class="callout" id="resultsNote">
+          Estimated miles driven from your current gas spend will appear here after calculation.
+        </div>
+
+        <div class="disclaimers">
+          <p><strong>Estimated Savings Disclaimer:</strong> The savings calculations provided are estimates only and are based on user-entered information, average fuel costs, and general electric vehicle efficiency assumptions. Actual savings may vary based on driving habits, vehicle selection, fuel prices, electricity rates, weather conditions, maintenance, charging behavior, and other factors. This tool is for informational purposes only and does not guarantee actual savings.</p>
+          <p><strong>Electric Vehicle Efficiency:</strong> Estimated EV efficiency values are based on typical industry ranges of approximately 0.25–0.35 kWh per mile. Actual efficiency varies by vehicle model, driving conditions, terrain, temperature, payload, speed, and usage patterns.</p>
+          <p><strong>Fuel Price Assumptions:</strong> Gasoline prices used in calculations may reflect user input, regional estimates, or national averages and may not represent current local fuel prices. Fuel costs may fluctuate significantly over time.</p>
+          <p><strong>Electricity Cost Assumptions:</strong> Electricity rates are estimated based on user input or average utility rates. Actual charging costs may vary depending on utility provider, time-of-use pricing, charging location, charging losses, and public fast-charging usage.</p>
+          <p><strong>No Offer or Guarantee:</strong> This tool does not constitute an offer to sell and does not guarantee vehicle availability, pricing, financing, lease terms, trade values, incentives, or monthly payments. All transactions are subject to dealer terms, availability, lender approval, and applicable agreements.</p>
+          <p><strong>Incentives &amp; Tax Credits:</strong> Federal, state, and local incentives for electric vehicles may change without notice and may be subject to eligibility requirements. Not all customers or vehicles qualify. Please consult a tax professional and your dealership for current program details.</p>
+          <p><strong>Limitation of Liability:</strong> Neither the dealership nor Dealership Science shall be liable for inaccuracies, omissions, or actions taken in reliance on this tool.</p>
         </div>
       </section>
 
-      <aside class="card right-card">
-        <h3>Get your personalized EV savings plan</h3>
-        <p class="sub">Choose what you want help with, then send your information for follow-up from a dealership representative.</p>
+      <section class="card">
+        <h2 id="formTitle">Get My EV Savings Plan</h2>
+        <p class="sub">Complete the form below and Dealership Science can capture, report, and forward the lead to the dealership CRM.</p>
 
-        <div class="field">
-          <label for="fullName">Full name</label>
-          <input id="fullName" type="text" />
-        </div>
-        <div class="field">
-          <label for="phone">Phone number</label>
-          <input id="phone" type="tel" />
-        </div>
-        <div class="field">
-          <label for="email">Email address</label>
-          <input id="email" type="email" />
-        </div>
-        <div class="field">
-          <label for="helpType">Choose what you want help with</label>
-          <textarea id="notes" placeholder="Anything else you want help with?" style="width:100%;border:1px solid #dbe5f1;border-radius:12px;padding:13px 14px;font-size:16px;background:#fff;min-height:72px;margin-top:10px;margin-bottom:12px"></textarea>
-        <select id="helpType">
-            <option>Show Me Available EVs</option>
-            <option>Compare Gas vs Electric</option>
-            <option>Schedule an EV Test Drive</option>
-            <option>Value My Trade for an EV</option>
-          </select>
-        </div>
-        <button class="submit" type="button" onclick="submitForm()">Get My Personalized EV Savings Plan</button>
-        <div style="font-size:12px;color:#5a6b84;line-height:1.55;margin-top:12px"><strong>Consent to Contact:</strong> By clicking <em>Get My Personalized EV Savings Plan</em>, you agree to be contacted by the dealership and its representatives by phone, text message, and email regarding your inquiry. Consent is not a condition of purchase. Message and data rates may apply.<br><br><strong>Privacy:</strong> Your information will be handled according to the dealership privacy policy and may be shared with affiliated partners and service providers for follow-up related to your request.</div>
-
-        <div class="cost-boxes">
-          <div class="cost">
-            <h4>Gas vehicle cost</h4>
-            <div class="big" id="gasWeekly">$92.12</div>
-            <div class="per">per week</div>
-            <div class="line"><span>Monthly</span><strong id="gasMonthly">$398.88</strong></div>
-            <div class="line"><span>Yearly</span><strong id="gasYearly">$4,790.24</strong></div>
+        <form id="leadForm" novalidate>
+          <div class="row">
+            <div class="field">
+              <label for="firstName">First Name</label>
+              <input type="text" id="firstName" name="first_name" required />
+            </div>
+            <div class="field">
+              <label for="lastName">Last Name</label>
+              <input type="text" id="lastName" name="last_name" required />
+            </div>
           </div>
-          <div class="cost">
-            <h4>Electric vehicle cost</h4>
-            <div class="big" id="evWeekly">$18.90</div>
-            <div class="per">per week</div>
-            <div class="line"><span>Monthly</span><strong id="evMonthly">$81.84</strong></div>
-            <div class="line"><span>Yearly</span><strong id="evYearly">$982.80</strong></div>
-          </div>
-        </div>
 
-        <div class="how">
-          <h4>How this works</h4>
-          <p>Gas cost = miles driven ÷ MPG × gas price</p>
-          <p>EV cost = miles driven × kWh per mile × electricity rate</p>
-          <p>Electricity is preset to $0.09/kWh based on your Kentucky utilities assumption.</p>
-          <p>This estimate focuses on fuel and charging cost only. It does not include maintenance, insurance, charger installation, taxes, or financing.</p>
-        </div>
-      </aside>
+          <div class="row">
+            <div class="field">
+              <label for="phone">Phone</label>
+              <input type="tel" id="phone" name="phone" required />
+            </div>
+            <div class="field">
+              <label for="email">Email</label>
+              <input type="email" id="email" name="email" required />
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="ctaSubject">How can we help?</label>
+            <select id="ctaSubject" name="cta_subject" required>
+              <option value="">Select an option</option>
+              <option>Get My EV Savings Plan</option>
+              <option>Show Me Available EVs</option>
+              <option>Value My Trade for an EV</option>
+              <option>Schedule an EV Test Drive</option>
+              <option>Help Me Compare Gas vs Electric</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="notes">Notes (Optional)</label>
+            <textarea id="notes" name="notes" placeholder="Tell us anything helpful about what you're shopping for."></textarea>
+          </div>
+
+          <label class="consent">
+            <input type="checkbox" id="consent" required />
+            By submitting this form, you agree to be contacted by <span id="consentDealerName">the dealership</span> and its representatives via phone, text message, and email regarding your inquiry. Consent is not a condition of purchase. Message and data rates may apply.
+          </label>
+
+          <div class="smallprint">
+            Information submitted through this tool will be used in accordance with the applicable privacy policy and may be shared with affiliated dealerships, CRM providers, and partners to assist with your request.
+          </div>
+
+          <div class="actions">
+            <button type="submit" id="submitButton">Submit</button>
+          </div>
+
+          <div id="formStatus" class="status info"></div>
+        </form>
+      </section>
     </div>
+
+    <footer class="dealer-footer">
+      <img id="dealerLogo" class="hidden" alt="Dealer logo" />
+      <div id="footerDealerName"><strong>Your Dealership</strong></div>
+      <div id="footerDealerPhone"></div>
+      <div><a id="footerDealerWebsite" href="#" target="_blank" rel="noopener"></a></div>
+      <div class="smallprint" style="max-width:860px;margin:12px auto 0;">
+        <span id="poweredByLine">This tool is powered by Dealership Science and is provided to assist with vehicle research and savings estimates.</span>
+      </div>
+    </footer>
   </main>
 
   <script>
-    const modeSpend = document.getElementById('modeSpend');
-    const modeMiles = document.getElementById('modeMiles');
-    const gasSpendWrap = document.getElementById('gasSpendWrap');
-    const milesWrap = document.getElementById('milesWrap');
+    /*
+      WHITE-LABEL + LEAD ROUTING CONFIG
+      Replace these values per store or load them dynamically later.
+      The key addition here is:
+      1) Dealership Science captures the lead first
+      2) The same payload can then be forwarded to a dealership CRM endpoint
+      3) Shopper is redirected to your Dealership Science landing page
+    */
+    const config = {
+      dealerId: "store-001",
+      dealerName: "Your Dealership",
+      dealerPhone: "000-000-0000",
+      dealerWebsite: "https://www.example.com",
+      dealerLogo: "",
+      primaryColor: "#003366",
+      heroEyebrow: "EV savings made simple",
+      heroHeadline: "See How Much You Could Save by Driving Electric",
+      heroSubheadline: "Enter a few details below to estimate your weekly, monthly, and yearly fuel savings.",
+      dealerMessage: "Customized for your dealership",
+      formTitle: "Get My EV Savings Plan",
+      showPoweredBy: true,
 
-    function money(n){
-      return new Intl.NumberFormat('en-US',{style:'currency',currency:'USD'}).format(n);
-    }
+      // Reporting / capture
+      leadSource: "Dealership Science EV Calculator",
+      leadMedium: "Website Form",
+      dsCaptureEndpoint: "https://www.dealershipscience.com/api/leads/capture",
+      dealerForwardEndpoint: "https://www.dealershipscience.com/api/leads/forward",
+      apiKey: "REPLACE_WITH_YOUR_SERVER_KEY_OR_REMOVE_FROM_FRONTEND",
 
-    function setMode(mode){
-      window.calcMode = mode;
-      if(mode === 'miles'){
-        modeSpend.classList.remove('active');
-        modeMiles.classList.add('active');
-        gasSpendWrap.classList.add('hidden');
-        milesWrap.classList.remove('hidden');
-      } else {
-        modeSpend.classList.add('active');
-        modeMiles.classList.remove('active');
-        gasSpendWrap.classList.remove('hidden');
-        milesWrap.classList.add('hidden');
+      // Redirect after success
+      redirectUrl: "https://www.dealershipscience.com/thank-you",
+
+      // Optional behaviors
+      includeCalculationData: true,
+      enableDealerForwarding: true
+    };
+
+    function applyBranding() {
+      document.documentElement.style.setProperty("--primary", config.primaryColor || "#003366");
+      document.getElementById("heroEyebrow").textContent = config.heroEyebrow || "";
+      document.getElementById("heroHeadline").textContent = config.heroHeadline || "";
+      document.getElementById("heroSubheadline").textContent = config.heroSubheadline || "";
+      document.getElementById("dealerMessage").textContent = config.dealerMessage || "";
+      document.getElementById("formTitle").textContent = config.formTitle || "Get My EV Savings Plan";
+      document.getElementById("consentDealerName").textContent = config.dealerName || "the dealership";
+      document.getElementById("footerDealerName").innerHTML = "<strong>" + escapeHtml(config.dealerName || "Your Dealership") + "</strong>";
+      document.getElementById("footerDealerPhone").textContent = config.dealerPhone || "";
+      const site = document.getElementById("footerDealerWebsite");
+      site.href = config.dealerWebsite || "#";
+      site.textContent = config.dealerWebsite || "";
+      const logo = document.getElementById("dealerLogo");
+      if (config.dealerLogo) {
+        logo.src = config.dealerLogo;
+        logo.classList.remove("hidden");
       }
-      calculate();
+      if (!config.showPoweredBy) {
+        document.getElementById("poweredByLine").textContent = "";
+      }
     }
 
-    function calculate(){
-      const mode = window.calcMode || 'spend';
-      const gasSpend = parseFloat(document.getElementById('gasSpend').value) || 0;
-      const weeklyMiles = parseFloat(document.getElementById('weeklyMiles').value) || 0;
-      const gasPrice = parseFloat(document.getElementById('gasPrice').value) || 0;
-      const mpg = parseFloat(document.getElementById('mpg').value) || 0;
-      const electricRate = parseFloat(document.getElementById('electricRate').value) || 0;
-      const efficiency = parseFloat(document.getElementById('efficiency').value) || 0;
-
-      if(!gasPrice || !mpg || !electricRate || !efficiency) return;
-
-      const miles = mode === 'miles' ? weeklyMiles : ((gasSpend / gasPrice) * mpg);
-      const gasGallons = miles / mpg;
-      const gasWeeklyCost = gasGallons * gasPrice;
-      const evWeeklyCost = miles * efficiency * electricRate;
-      const weeklySavings = gasWeeklyCost - evWeeklyCost;
-
-      document.getElementById('estMiles').textContent = `${Math.round(miles).toLocaleString()} miles`;
-      document.getElementById('gasUsed').textContent = `${gasGallons.toFixed(1)} gal / week`;
-      document.getElementById('powerUsed').textContent = `${(miles * efficiency).toFixed(1)} kWh / week`;
-      document.getElementById('quickSavings').textContent = money(weeklySavings);
-
-      document.getElementById('weeklySavings').textContent = money(weeklySavings);
-      document.getElementById('monthlySavings').textContent = money(weeklySavings * 4.33);
-      document.getElementById('yearlySavings').textContent = money(weeklySavings * 52);
-
-      document.getElementById('gasWeekly').textContent = money(gasWeeklyCost);
-      document.getElementById('gasMonthly').textContent = money(gasWeeklyCost * 4.33);
-      document.getElementById('gasYearly').textContent = money(gasWeeklyCost * 52);
-
-      document.getElementById('evWeekly').textContent = money(evWeeklyCost);
-      document.getElementById('evMonthly').textContent = money(evWeeklyCost * 4.33);
-      document.getElementById('evYearly').textContent = money(evWeeklyCost * 52);
+    function currency(n) {
+      return new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" }).format(n || 0);
     }
 
-    ['gasSpend','weeklyMiles','gasPrice','mpg','electricRate','efficiency'].forEach(id => {
-      document.getElementById(id).addEventListener('input', calculate);
-    });
+    function calculateSavings() {
+      const gasSpend = parseFloat(document.getElementById("gasSpend").value) || 0;
+      const gasPrice = parseFloat(document.getElementById("gasPrice").value) || 0;
+      const mpg = parseFloat(document.getElementById("mpg").value) || 0;
+      const electricRate = parseFloat(document.getElementById("electricRate").value) || 0;
+      const efficiency = parseFloat(document.getElementById("efficiency").value) || 0;
 
-    modeSpend.addEventListener('click', () => setMode('spend'));
-    modeMiles.addEventListener('click', () => setMode('miles'));
+      if (!gasSpend || !gasPrice || !mpg || !electricRate || !efficiency) {
+        document.getElementById("resultsNote").textContent = "Please enter valid values in all calculator fields.";
+        document.getElementById("weeklySavings").textContent = currency(0);
+        document.getElementById("monthlySavings").textContent = currency(0);
+        document.getElementById("yearlySavings").textContent = currency(0);
+        return;
+      }
 
-    setMode('miles');
+      const estimatedMiles = (gasSpend / gasPrice) * mpg;
+      const evWeeklyCost = estimatedMiles * efficiency * electricRate;
+      const weekly = gasSpend - evWeeklyCost;
+      const monthly = weekly * 4.33;
+      const yearly = weekly * 52;
+
+      document.getElementById("weeklySavings").textContent = currency(weekly);
+      document.getElementById("monthlySavings").textContent = currency(monthly);
+      document.getElementById("yearlySavings").textContent = currency(yearly);
+      document.getElementById("resultsNote").innerHTML =
+        "Based on your current gas spend, you drive an estimated <strong>" +
+        Math.round(estimatedMiles).toLocaleString() +
+        " miles per week</strong>. Estimated EV charging cost for that driving is <strong>" +
+        currency(evWeeklyCost) + " per week</strong>.";
+    }
+
+    function resetCalculator() {
+      document.getElementById("gasSpend").value = "75";
+      document.getElementById("gasPrice").value = "3.29";
+      document.getElementById("mpg").value = "25";
+      document.getElementById("electricRate").value = "0.09";
+      document.getElementById("efficiency").value = "0.30";
+      calculateSavings();
+    }
+
+    function escapeHtml(str) {
+      return String(str)
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+    }
+
+    function getQueryParam(name) {
+      const params = new URLSearchParams(window.location.search);
+      return params.get(name) || "";
+    }
+
+    function getUtmData() {
+      return {
+        utm_source: getQueryParam("utm_source"),
+        utm_medium: getQueryParam("utm_medium"),
+        utm_campaign: getQueryParam("utm_campaign"),
+        utm_content: getQueryParam("utm_content"),
+        utm_term: getQueryParam("utm_term"),
+        gclid: getQueryParam("gclid"),
+        fbclid: getQueryParam("fbclid")
+      };
+    }
+
+    function showStatus(message, type = "info") {
+      const box = document.getElementById("formStatus");
+      box.className = "status show " + type;
+      box.textContent = message;
+    }
+
+    function getCalculationData() {
+      return {
+        weekly_gas_spend: document.getElementById("gasSpend").value,
+        gas_price: document.getElementById("gasPrice").value,
+        mpg: document.getElementById("mpg").value,
+        electric_rate: document.getElementById("electricRate").value,
+        ev_efficiency: document.getElementById("efficiency").value,
+        weekly_savings: document.getElementById("weeklySavings").textContent,
+        monthly_savings: document.getElementById("monthlySavings").textContent,
+        yearly_savings: document.getElementById("yearlySavings").textContent
+      };
+    }
+
+    async function postJson(url, payload) {
+      const headers = { "Content-Type": "application/json" };
+      if (config.apiKey && !config.apiKey.includes("REPLACE_WITH")) {
+        headers["Authorization"] = "Bearer " + config.apiKey;
+      }
+      const response = await fetch(url, {
+        method: "POST",
+        headers,
+        body: JSON.stringify(payload)
+      });
+      if (!response.ok) {
+        const text = await response.text();
+        throw new Error(text || ("Request failed with status " + response.status));
+      }
+      try { return await response.json(); } catch { return {}; }
+    }
+
+    async function handleFormSubmit(event) {
+      event.preventDefault();
+      const form = document.getElementById("leadForm");
+      if (!form.reportValidity()) return;
+
+      const submitButton = document.getElementById("submitButton");
+      submitButton.disabled = true;
+      submitButton.textContent = "Submitting...";
+      showStatus("Saving lead to Dealership Science and preparing CRM forwarding...", "info");
+
+      const payload = {
+        dealer: {
+          dealer_id: config.dealerId,
+          dealer_name: config.dealerName,
+          dealer_phone: config.dealerPhone,
+          dealer_website: config.dealerWebsite
+        },
+        customer: {
+          first_name: document.getElementById("firstName").value.trim(),
+          last_name: document.getElementById("lastName").value.trim(),
+          phone: document.getElementById("phone").value.trim(),
+          email: document.getElementById("email").value.trim()
+        },
+        lead: {
+          subject: document.getElementById("ctaSubject").value,
+          notes: document.getElementById("notes").value.trim(),
+          consent: document.getElementById("consent").checked ? "Yes" : "No",
+          source: config.leadSource,
+          medium: config.leadMedium,
+          page_url: window.location.href,
+          page_title: document.title,
+          submitted_at: new Date().toISOString()
+        },
+        attribution: getUtmData(),
+        calculator: config.includeCalculationData ? getCalculationData() : {}
+      };
+
+      try {
+        /*
+          STEP 1: Capture into Dealership Science first.
+          This is your master record for reporting, dashboards, and auditing.
+          Your backend should store:
+          - full lead payload
+          - rooftop / dealer id
+          - attribution / UTM
+          - timestamps
+          - forward status
+          - CRM response
+        */
+        let dsResult = {};
+        if (config.dsCaptureEndpoint) {
+          dsResult = await postJson(config.dsCaptureEndpoint, payload);
+        }
+
+        /*
+          STEP 2: Forward to dealer CRM through your own forwarding service.
+          Recommended: let your backend map dealerId to the correct CRM integration
+          rather than exposing direct CRM credentials in the browser.
+        */
+        if (config.enableDealerForwarding && config.dealerForwardEndpoint) {
+          const forwardPayload = {
+            ...payload,
+            ds_capture_id: dsResult.capture_id || dsResult.id || "",
+            route_to_dealer_id: config.dealerId
+          };
+          await postJson(config.dealerForwardEndpoint, forwardPayload);
+        }
+
+        showStatus("Success. Redirecting to your Dealership Science landing page...", "info");
+        setTimeout(() => {
+          window.location.href = config.redirectUrl || "https://www.dealershipscience.com/thank-you";
+        }, 600);
+      } catch (error) {
+        console.error(error);
+        showStatus("Lead capture or forwarding failed. Check your endpoint configuration and server logs.", "error");
+        submitButton.disabled = false;
+        submitButton.textContent = "Submit";
+      }
+    }
+
+    document.getElementById("leadForm").addEventListener("submit", handleFormSubmit);
+    applyBranding();
+    calculateSavings();
   </script>
 
-<div style="max-width:1120px;margin:30px auto 20px;padding:0 16px;font-size:12px;color:#5a6b84;line-height:1.6">
-<strong>Disclaimers:</strong><br>
-Estimates are based on user inputs and national averages. Actual savings may vary based on driving habits, vehicle condition, fuel prices, electricity rates, and environmental conditions.<br><br>
-This tool provides an estimate of fuel and energy cost differences only and does not include maintenance, insurance, financing, tax incentives, charger installation, or resale value.<br><br>
-Electricity rate is preset for Kentucky and may not reflect your exact utility provider. Always verify with your local provider.<br><br>
-By submitting this form, you consent to be contacted by the dealership regarding your inquiry.
-</div>
-
-<script>
-const inventoryUrl = 'https://www.timshortford.com/inventory/used,new?paymenttype=cash&fueltypes=electric%20fuel%20system&intransit=false&instock=false&inproduction=false';
-
-function submitForm(){
-  const name = document.getElementById('fullName').value || '';
-  const phone = document.getElementById('phone').value || '';
-  const email = document.getElementById('email').value || '';
-  const help = document.getElementById('helpType').value || '';
-  const notes = document.getElementById('notes').value || '';
-
-  const weekly = document.getElementById('weeklySavings').textContent;
-  const monthly = document.getElementById('monthlySavings').textContent;
-  const yearly = document.getElementById('yearlySavings').textContent;
-
-  const params = new URLSearchParams({
-    name, phone, email, help, notes, weekly, monthly, yearly, inventory_url: inventoryUrl
-  });
-
-  window.location.href = "thank-you.html?" + params.toString();
-}
-</script>
+<footer style="margin-top:40px;padding:20px 16px;text-align:center;color:#5a6b84;font-size:13px">
+  <div style="font-weight:700;color:#0e2b56;margin-bottom:6px">Dealership Science</div>
+  <div>Measure. Optimize. Sell More.</div>
+</footer>
 
 </body>
 </html>
